@@ -24,28 +24,28 @@
   "screens": [
     {
       "id": "maps",
-      "caption": "Maps: the route, the next turn and the others in the convoy",
-      "src": ""
+      "caption": "Maps: the route and the next turn",
+      "src": "assets/screens/maps.webp"
     },
     {
       "id": "media",
       "caption": "Media: the music on the card, folder by folder",
-      "src": ""
+      "src": "assets/screens/media.webp"
     },
     {
       "id": "dashcam",
       "caption": "Dashcam: recording, with a moment marked",
-      "src": ""
+      "src": "assets/screens/dashcam.webp"
     },
     {
       "id": "convoy",
       "caption": "Convoy: who's ahead, who's behind, and the messages",
-      "src": ""
+      "src": "assets/screens/convoy.webp"
     },
     {
       "id": "engine",
       "caption": "Engine: readings from an OBD2 adapter",
-      "src": ""
+      "src": "assets/screens/engine.webp"
     }
   ],
   "features": [
