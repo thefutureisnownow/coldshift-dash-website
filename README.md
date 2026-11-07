@@ -42,13 +42,15 @@ The pages are templates in `scripts/build.mjs`, with a `layout()` they share; th
 
 No cookies, analytics, tracking or third-party requests: the pictures are served from here, and the fonts are the system's. `public/_headers` sets a Content-Security-Policy that allows only this site's own files (and `check` fails on a page that would need more), so a Cloudflare feature that injects a script from elsewhere is blocked rather than tracking anyone.
 
-## Cloudflare Pages (not set up yet)
+## Hosting
 
-To publish, as with coldshift.racing:
+https://dash.coldshift.racing is served by Cloudflare from the built site's files (a Worker with static assets,
+`wrangler.jsonc`), deployed from the maintainer's Mac; nothing builds or deploys on GitHub:
 
-- A Pages project connected to this repository through its Git integration, so every push to `main` goes live.
-- Production branch `main`; framework preset None; build command `npm run build`; output directory `dist`; environment variable `NODE_VERSION` = `22`.
-- Custom domain `dash.coldshift.racing` (a proxied CNAME in the coldshift.racing zone).
+    npm run deploy      # builds, checks, and puts dist/ live on dash.coldshift.racing
+
+The custom domain is in `wrangler.jsonc` (`routes`), so every deploy keeps it; the workers.dev address is off.
+Workers Logs are off too, so the site keeps no record of its visitors.
 
 GitHub Actions (`.github/workflows/check.yml`) builds and checks every push and pull request.
 

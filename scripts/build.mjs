@@ -364,7 +364,7 @@ const privacy = `<div class="shell page narrow prose">
     <li><b>Following in a browser</b>: the convoy's web page draws its map with tiles from OpenFreeMap, which sees an ordinary request from your browser.</li>
   </ul>
   <h2 id="website">This website</h2>
-  <p>No cookies, no analytics and no third-party requests: the pictures are served from here, and the downloads come from GitHub, when you choose one. The site is hosted on Cloudflare Pages, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
+  <p>No cookies, no analytics and no third-party requests: the pictures are served from here, and the downloads come from GitHub, when you choose one. The site is hosted on Cloudflare, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
   <h2 id="deleting">Deleting your data</h2>
   <p>There's no account, and nothing about you on our servers. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps and music you put in its <span class="mono">coldshift.dash</span> folder on the card stay until you delete them. A convoy is deleted from its relay when it ends.</p>
   <h2 id="children">Children</h2>

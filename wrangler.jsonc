@@ -1,0 +1,12 @@
+// dash.coldshift.racing: the built site (dist/), served by Cloudflare from static assets. Deploy from this Mac:
+//   npm run deploy      (builds, checks, then wrangler deploy)
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "coldshift-dash-website",
+  "compatibility_date": "2026-11-04",
+  // no Workers Logs: the site keeps no record of its visitors (see /privacy/)
+  "observability": { "enabled": false },
+  "assets": { "directory": "dist" },
+  "routes": [{ "pattern": "dash.coldshift.racing", "custom_domain": true }],
+  "workers_dev": false
+}
