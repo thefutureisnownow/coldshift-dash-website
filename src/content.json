@@ -92,16 +92,16 @@
     }
   ],
   "downloads": {
-    "version": "",
-    "published": false,
+    "version": "0.1.0",
+    "published": true,
     "releases": "https://github.com/thefutureisnownow/coldshift-dash/releases",
     "latest": "https://github.com/thefutureisnownow/coldshift-dash/releases/latest",
     "apks": [
       {
         "id": "modern",
         "file": "dash-modern.apk",
-        "size": "",
-        "sha256": "",
+        "size": "2.6 MB",
+        "sha256": "c2abf376b1df3b9ebb15c153e2ca2816329cb4bdbd95f6ab5d8d68d0c7e39c83",
         "steps": [
           "Download the APK on the phone and open it.",
           "When Android asks, allow installing apps from your browser or files app.",
@@ -114,8 +114,8 @@
       {
         "id": "legacy",
         "file": "dash-legacy.apk",
-        "size": "",
-        "sha256": "",
+        "size": "2.6 MB",
+        "sha256": "15607f8ed9be7518370efcece5ebe1fdf2017e7a684713758a77a06b49b23ac3",
         "steps": [
           "On the phone, turn on Settings, Security, Unknown sources.",
           "Download the APK on the phone, open it from the notification and choose Install.",
@@ -127,12 +127,12 @@
       }
     ],
     "desktop": {
-      "published": false,
+      "published": true,
       "releases": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases",
       "latest": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases/latest",
       "name": "Mac",
       "detail": "Apple Silicon (M1 or later), macOS 12 or later",
-      "file": "Coldshift-Dash-<version>-mac-arm64.dmg",
+      "file": "Coldshift-Dash-0.2-mac-arm64.dmg",
       "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it. Windows and Linux: run it from its source for now.",
       "steps": [
         "Open the .dmg and drag Coldshift Dash onto Applications.",
