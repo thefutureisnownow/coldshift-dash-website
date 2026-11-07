@@ -8,12 +8,13 @@
     "hero": "Offline maps and navigation, a dashcam, your music, the engine's readings and a log book, on one screen made for a glance. It runs on the phone you already have, even one from 2014, and needs no account and no internet."
   },
   "repos": {
-    "app": "https://github.com/stained/coldshift-dash",
-    "convoy": "https://github.com/stained/coldshift-dash-convoy",
-    "site": "https://github.com/stained/coldshift-dash-website"
+    "app": "https://github.com/thefutureisnownow/coldshift-dash",
+    "convoy": "https://github.com/thefutureisnownow/coldshift-dash-convoy",
+    "site": "https://github.com/thefutureisnownow/coldshift-dash-website",
+    "desktop": "https://github.com/thefutureisnownow/coldshift-dash-desktop"
   },
   "convoy": {
-    "guide": "https://github.com/stained/coldshift-dash-convoy/blob/main/docs/cloudflare.md",
+    "guide": "https://github.com/thefutureisnownow/coldshift-dash-convoy/blob/main/docs/cloudflare.md",
     "keep": {
       "idleHours": 12,
       "messages": 100,
@@ -93,9 +94,8 @@
   "downloads": {
     "version": "",
     "published": false,
-    "releases": "https://github.com/stained/coldshift-dash/releases",
-    "latest": "https://github.com/stained/coldshift-dash/releases/latest",
-    "play": "",
+    "releases": "https://github.com/thefutureisnownow/coldshift-dash/releases",
+    "latest": "https://github.com/thefutureisnownow/coldshift-dash/releases/latest",
     "apks": [
       {
         "id": "modern",
@@ -108,7 +108,7 @@
           "Choose Install, then open Coldshift Dash and allow what it asks for: location, camera, microphone, files and notifications."
         ],
         "name": "Android 6 and later",
-        "detail": "For current phones (Android 6 to 16), if you'd rather not use Google Play",
+        "detail": "For current phones, Android 6 to 16",
         "note": "It asks for All files access, to read the maps and music in the coldshift.dash folder on the phone's card."
       },
       {
@@ -126,7 +126,19 @@
         "note": "Made for a phone that lives in the car: kiosk mode starts it with the phone and keeps it in front."
       }
     ],
-    "desktop": "A desktop companion, to put maps and music on the phone, is coming."
+    "desktop": {
+      "published": false,
+      "releases": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases",
+      "latest": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases/latest",
+      "name": "Mac",
+      "detail": "Apple Silicon (M1 or later), macOS 12 or later",
+      "file": "Coldshift-Dash-<version>-mac-arm64.dmg",
+      "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it. Windows and Linux: run it from its source for now.",
+      "steps": [
+        "Open the .dmg and drag Coldshift Dash onto Applications.",
+        "Open it, and follow Connect your phone: a USB cable with USB debugging on (it walks you through it), or the phone's card in a card reader."
+      ]
+    }
   },
   "contact": {
     "studio": "TFINN",
@@ -162,5 +174,6 @@
       "what": "The map, routing and search data. ODbL",
       "url": "https://www.openstreetmap.org/copyright"
     }
-  ]
+  ],
+  "releaseKey": "E2:31:5C:67:F0:26:B9:1B:A5:E6:44:38:D2:84:06:D5:E4:58:11:04:DE:64:8B:72:C8:EC:C2:64:61:26:E0:88"
 }
