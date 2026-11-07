@@ -61,7 +61,7 @@
     {
       "id": "media",
       "name": "Your music",
-      "text": "Plays the music on the phone's card, folder by folder with their covers, shuffle and repeat. The desktop tool indexes a big library in seconds, so even an old phone opens it at once."
+      "text": "Plays the music on the phone's card, folder by folder with their covers, shuffle and repeat, and keeps playing behind the map."
     },
     {
       "id": "engine",
@@ -90,108 +90,43 @@
       "text": "Each car gets its own look: its name, badges, background, colours and its picture on the map. The settings back up and restore, so a new phone picks up where the old one left off."
     }
   ],
-  "desktop": [
-    [
-      "Maps",
-      "Download your region's map, routing data and search data and put them on the phone."
-    ],
-    [
-      "Music",
-      "Index your library and copy the songs the phone is missing."
-    ],
-    [
-      "Recordings",
-      "Pull the dashcam's clips and marks, and gather everything from one trip into a folder."
-    ],
-    [
-      "Places and voices",
-      "Add places from the computer, and make voice packs for the prompts."
-    ],
-    [
-      "Vehicle",
-      "Set the car's name, picture and colours."
-    ],
-    [
-      "Log book and Track",
-      "Bring trips, fill-ups and runs to the computer, compare runs, export the logbook."
-    ]
-  ],
   "downloads": {
     "version": "",
+    "published": false,
     "releases": "https://github.com/stained/coldshift-dash/releases",
-    "builds": [
-      {
-        "id": "play",
-        "platform": "Google Play",
-        "kind": "phone",
-        "detail": "Android 6 and later. Updates itself.",
-        "store": "Google Play",
-        "url": "",
-        "note": "Keeps its files in its own folder, so on Android 11 and later the desktop tool can't reach them. If you sync with a computer, take the APK below."
-      },
+    "latest": "https://github.com/stained/coldshift-dash/releases/latest",
+    "play": "",
+    "apks": [
       {
         "id": "modern",
-        "platform": "Android 6 and later",
-        "kind": "phone",
-        "detail": "The APK, for current phones (Android 6 to 16)",
         "file": "dash-modern.apk",
         "size": "",
-        "url": "",
         "sha256": "",
-        "note": "It asks for All files access, so the desktop tool can reach its maps and music on Android 11 and later.",
         "steps": [
           "Download the APK on the phone and open it.",
           "When Android asks, allow installing apps from your browser or files app.",
           "Choose Install, then open Coldshift Dash and allow what it asks for: location, camera, microphone, files and notifications."
-        ]
+        ],
+        "name": "Android 6 and later",
+        "detail": "For current phones (Android 6 to 16), if you'd rather not use Google Play",
+        "note": "It asks for All files access, to read the maps and music in the coldshift.dash folder on the phone's card."
       },
       {
         "id": "legacy",
-        "platform": "Android 4.4",
-        "kind": "phone",
-        "detail": "The APK, for older phones on Android 4.4 KitKat, such as a Huawei Ascend G7",
         "file": "dash-legacy.apk",
         "size": "",
-        "url": "",
         "sha256": "",
-        "note": "Made for a phone that lives in the car: kiosk mode starts it with the phone and keeps it in front.",
         "steps": [
           "On the phone, turn on Settings, Security, Unknown sources.",
           "Download the APK on the phone, open it from the notification and choose Install.",
           "Or from a computer: adb install -r dash-legacy.apk"
-        ]
-      },
-      {
-        "id": "mac",
-        "platform": "Mac",
-        "kind": "desktop",
-        "detail": "The desktop tool for macOS",
-        "file": "",
-        "size": "",
-        "url": "",
-        "sha256": ""
-      },
-      {
-        "id": "windows",
-        "platform": "Windows",
-        "kind": "desktop",
-        "detail": "The desktop tool for Windows 10 and 11, 64-bit",
-        "file": "",
-        "size": "",
-        "url": "",
-        "sha256": ""
-      },
-      {
-        "id": "linux",
-        "platform": "Linux",
-        "kind": "desktop",
-        "detail": "The desktop tool for 64-bit Linux",
-        "file": "",
-        "size": "",
-        "url": "",
-        "sha256": ""
+        ],
+        "name": "Android 4.4",
+        "detail": "For older phones on Android 4.4 KitKat, such as a Huawei Ascend G7",
+        "note": "Made for a phone that lives in the car: kiosk mode starts it with the phone and keeps it in front."
       }
-    ]
+    ],
+    "desktop": "A desktop companion, to put maps and music on the phone, is coming."
   },
   "contact": {
     "studio": "TFINN",
@@ -226,26 +161,6 @@
       "name": "OpenStreetMap contributors",
       "what": "The map, routing and search data. ODbL",
       "url": "https://www.openstreetmap.org/copyright"
-    },
-    {
-      "name": "Qt for Python (PySide6)",
-      "what": "The desktop tool's window. LGPL-3.0",
-      "url": "https://doc.qt.io/qtforpython-6/"
-    },
-    {
-      "name": "Mutagen",
-      "what": "The desktop tool reads songs' tags with it. GPL-2.0-or-later",
-      "url": "https://github.com/quodlibet/mutagen"
-    },
-    {
-      "name": "Pillow",
-      "what": "The desktop tool's covers and pictures. MIT-CMU",
-      "url": "https://python-pillow.org"
-    },
-    {
-      "name": "pyosmium",
-      "what": "The desktop tool builds the search data with it. BSD-2-Clause",
-      "url": "https://osmcode.org/pyosmium/"
     }
   ]
 }

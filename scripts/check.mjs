@@ -1,9 +1,8 @@
 // Checks the built site: every local link, image and inline url() resolves (anchors too), every page has its
 // metadata, nothing needs what the Content-Security-Policy in _headers blocks (inline styles or scripts, or anything
-// from another site), no file is over Cloudflare Pages' 25 MiB, and every download with a url has its size and
-// sha256 (a local one matching its file). It lists the placeholders still waiting on content.
+// from another site), no file is over Cloudflare Pages' 25 MiB, and the downloads' addresses and checksums are well
+// formed. It lists the placeholders still waiting on content.
 import { readdir, readFile, stat } from 'node:fs/promises';
-import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 const root = path.resolve('dist');
@@ -61,23 +60,14 @@ for (const file of files.filter(f => /\.(html|css)$/.test(f))) {
 }
 
 const c = JSON.parse(await readFile('src/content.json', 'utf8'));
-for (const b of c.downloads.builds) {
-  if (!b.url) continue;
-  const where = `content.json downloads: ${b.id}`;
-  if (b.store) continue;
-  if (!/^[0-9a-f]{64}$/.test(b.sha256 || '') && !b.url.startsWith('/')) errors.push(`${where}: no sha256`);
-  if (!b.size && !b.url.startsWith('/')) errors.push(`${where}: no size`);
-  if (b.url.startsWith('/')) {
-    try {
-      const bytes = await readFile(path.join(root, b.url));
-      if (b.sha256 && createHash('sha256').update(bytes).digest('hex') !== b.sha256) errors.push(`${where}: ${b.url}'s sha256 isn't the listed one`);
-      checked++;
-    } catch {
-      errors.push(`${where}: missing ${b.url}`);
-    }
-  } else if (!b.url.startsWith('https://')) errors.push(`${where}: its url should be https`);
+const dl = c.downloads;
+for (const [key, href] of [['play', dl.play], ['latest', dl.latest], ['releases', dl.releases]])
+  if (href && !href.startsWith('https://')) errors.push(`content.json downloads.${key}: should be an https address`);
+for (const a of dl.apks) {
+  const where = `content.json downloads.apks: ${a.id}`;
+  if (!/^[\w.-]+\.apk$/.test(a.file || '')) errors.push(`${where}: its file should be the APK's name in the release`);
+  if (a.sha256 && !/^[0-9a-f]{64}$/.test(a.sha256)) errors.push(`${where}: its sha256 should be 64 hex characters`);
 }
-
 if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
 console.log(`Checked ${checked} local references in ${files.length} files; every page has its metadata, nothing breaks the CSP, and every file fits.`);
 if (placeholders.size) console.log(`Placeholders still waiting on content: ${[...placeholders].join(', ')}.`);

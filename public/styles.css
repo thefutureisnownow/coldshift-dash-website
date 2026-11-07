@@ -193,11 +193,6 @@ img, svg { max-width: 100%; }
 .builds-mini h3 { margin-bottom: 2px; }
 .builds-mini p { margin: 0 0 4px; }
 
-.desk { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.desk div { background: var(--surface); border: 1px solid var(--edge); border-radius: 12px; padding: 14px 16px; }
-.desk dt { font-weight: 700; margin-bottom: 2px; }
-.desk dd { margin: 0; color: var(--muted); font-size: 14px; }
-@media (max-width: 519px) { .desk { grid-template-columns: 1fr; } }
 
 .points { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
 .points li { display: flex; gap: 14px; align-items: flex-start; }
@@ -213,19 +208,30 @@ img, svg { max-width: 100%; }
 .group { margin: 48px 0 16px; font-size: 26px; }
 
 /* downloads */
-.which { margin-bottom: 18px; }
-.which ul { margin: 0 0 12px; padding-left: 20px; }
-.which li { margin-bottom: 6px; }
-.builds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
-.build { display: flex; flex-direction: column; }
 .build .device { width: 34px; height: 34px; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
-.build h3 { font-size: 20px; margin-bottom: 4px; }
-.build.soon { border-style: dashed; }
 .tag { display: inline-block; align-self: flex-start; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
   color: var(--gold); border: 1px solid currentColor; border-radius: 999px; padding: 3px 11px; }
 details summary { cursor: pointer; font-weight: 600; color: var(--link); }
 .steps { padding-left: 20px; margin: 10px 0 0; font-size: 15px; }
 .steps li { margin-bottom: 4px; }
+
+/* the Android card: Google Play first, then the APKs */
+.android { max-width: 920px; }
+.android-head { display: flex; gap: 14px; align-items: center; margin-bottom: 18px; }
+.android-head .device { margin: 0; }
+.android-head h2 { margin: 0; font-size: 26px; }
+.android-head p { margin: 0; }
+.play { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.play p:first-child { margin-bottom: 8px; }
+.android > h3 { font-size: 17px; margin-bottom: 14px; }
+.apks { list-style: none; margin: 0 0 18px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.apk { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.apk.soon { border-style: dashed; }
+.apk h4 { margin: 0 0 4px; font-size: 18px; }
+.apk p { margin-bottom: 10px; }
+.apk > :last-child { margin-bottom: 0; }
+.desktop-soon { margin-top: 24px; }
+@media (max-width: 719px) { .apks { grid-template-columns: 1fr; } .android { padding: 18px; } .apk { padding: 16px; } }
 
 /* convoy */
 .how { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }

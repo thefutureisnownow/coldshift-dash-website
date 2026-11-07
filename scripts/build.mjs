@@ -38,7 +38,6 @@ const ICONS = {
   convoy: '<path d="M4 18c5 0 4-10 9-10s4 7 7 7"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="15" r="2"/>',
   vehicle: '<path d="M4 15.5v-3l2-5h12l2 5v3a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 15.5z"/><path d="M4 12.5h16"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/>',
   phone: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
-  desktop: '<rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M1 20h22M9 16l-1 4m7-4 1 4"/>',
   code: '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
   lock: '<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
   wifi: '<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/>',
@@ -126,9 +125,11 @@ const screen = (s, cls = '') => `<figure class="device${cls ? ' ' + cls : ''}">
         <figcaption>${esc(s.caption)}</figcaption>
       </figure>`;
 
-const builds = c.downloads.builds;
-const phones = builds.filter(b => b.kind === 'phone');
-const anyLive = builds.some(b => b.url);
+// Downloads: the Play listing, and the APKs attached to coldshift-dash's latest GitHub release (its release workflow
+// attaches both APKs and a SHA256SUMS), live once `downloads.published` is true.
+const dl = c.downloads;
+const apkUrl = a => dl.published ? `${dl.latest}/download/${a.file}` : '';
+const anyLive = Boolean(dl.play || dl.published);
 
 const home = `<section class="hero">
   ${quietMap}
@@ -176,26 +177,12 @@ const home = `<section class="hero">
       <p class="actions">${button('/download/', 'Which one is mine?', 'ghost')}</p>
     </div>
     <ul class="builds-mini">
-      ${phones.filter(b => b.file).map(b => `<li class="card">${icon('phone', 'ic tile')}<div><h3>${esc(b.platform)}</h3><p class="meta">${esc(b.detail)}</p><p class="mono small">${esc(b.file)}</p></div></li>`).join('\n      ')}
+      ${dl.apks.map(a => `<li class="card">${icon('phone', 'ic tile')}<div><h3>${esc(a.name)}</h3><p class="meta">${esc(a.detail)}</p><p class="mono small">${esc(a.file)}</p></div></li>`).join('\n      ')}
     </ul>
   </div>
 </section>
 
-<section class="band alt" aria-labelledby="desktop-title">
-  <div class="shell split">
-    <div>
-      ${eyebrow('On the computer', 4)}
-      <h2 id="desktop-title">The desktop tool</h2>
-      <p>The heavy lifting happens on a computer: it fetches your region's map, routing and search data, indexes your music and puts it all on the phone, over USB or through a card reader. It brings back the dashcam's clips, the log book and your runs.</p>
-      <p class="actions">${button('/download/#computers', 'Get the desktop tool', 'ghost')}</p>
-    </div>
-    <dl class="desk">
-      ${c.desktop.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('\n      ')}
-    </dl>
-  </div>
-</section>
-
-<section class="band convoy-band" aria-labelledby="convoy-title">
+<section class="band alt convoy-band" aria-labelledby="convoy-title">
   <div class="shell split">
     <div>
       ${eyebrow('Convoy', 7)}
@@ -211,16 +198,16 @@ const home = `<section class="hero">
   </div>
 </section>
 
-<section class="band alt" aria-labelledby="open-title">
+<section class="band" aria-labelledby="open-title">
   <div class="shell split">
     <div>
       ${eyebrow('Open source', 8)}
       <h2 id="open-title">Yours to read, change and run</h2>
-      <p>The app, the desktop tool and the Convoy host are open source under the MIT licence. Build them yourself, run your own Convoy host, or make the dash your car's own.</p>
+      <p>The app and the Convoy host are open source under the MIT licence. Build them yourself, run your own Convoy host, or make the dash your car's own.</p>
       <p class="actions">${button('/source/', 'The source')}</p>
     </div>
     <ul class="points">
-      <li>${icon('code', 'ic tile')}<div><b>${esc(repoName(c.repos.app))}</b><span>The Android app and the desktop tool.</span></div></li>
+      <li>${icon('code', 'ic tile')}<div><b>${esc(repoName(c.repos.app))}</b><span>The Android app.</span></div></li>
       <li>${icon('cloud', 'ic tile')}<div><b>${esc(repoName(c.repos.convoy))}</b><span>The Convoy host, for Cloudflare or your own computer.</span></div></li>
     </ul>
   </div>
@@ -228,50 +215,38 @@ const home = `<section class="hero">
 
 // ---- Download
 
-// A build's size and sha256: worked out here for a file this site serves (a `url` starting with /, from public/),
-// from content.json for one hosted elsewhere (a GitHub release, say). A listed sha256 that doesn't match stops the build.
-const mb = bytes => `${(bytes / 1048576).toFixed(1)} MB`;
-for (const b of builds) {
-  if (!b.url?.startsWith('/')) continue;
-  const bytes = await readFile(path.join('public', b.url));
-  const sha = createHash('sha256').update(bytes).digest('hex');
-  if (b.sha256 && b.sha256 !== sha) throw new Error(`content.json's ${b.id}: its sha256 isn't ${b.url}'s (${sha})`);
-  Object.assign(b, { sha256: sha, size: mb(bytes.length) });
-}
-
-// The card's shape is coldshift.racing's buildCard: the device, the name, what it's for, then the download with
-// its file, size and sha256, or "Coming soon" while it has no url.
-const buildCard = b => `<li class="card build${b.url ? '' : ' soon'}" id="${b.id}">
-      ${icon(b.kind, 'device')}
-      <h3>${esc(b.platform)}</h3>
-      <p class="meta">${esc(b.detail)}</p>
-      ${b.url ? `<p>${ext(b.url, b.store ? `Get it on ${esc(b.store)}` : `Download${b.size ? ` (${esc(b.size)})` : ''}`, 'button')}</p>
-      ${b.file ? `<p class="mono small">${esc(b.file)}${b.sha256 ? `<br>SHA-256 ${esc(b.sha256)}` : ''}</p>` : ''}` : `<!-- PLACEHOLDER: download "${b.id}" --><p class="tag">Coming soon</p>${b.file ? `<p class="mono small dim">${esc(b.file)}</p>` : ''}`}
-      ${b.note ? `<p class="small">${esc(b.note)}</p>` : ''}
-      ${b.steps?.length ? `<details><summary>How to install</summary><ol class="steps">${b.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></details>` : ''}
-    </li>`;
+// The Android card: Google Play first; then the APKs from GitHub, each with its file, size and sha256 (from
+// content.json, once filled in) and how to install it, or "Coming soon" until the release is up.
+const apk = a => `<li class="apk${apkUrl(a) ? '' : ' soon'}" id="${esc(a.id)}">
+          <h4>${esc(a.name)}</h4>
+          <p class="meta">${esc(a.detail)}</p>
+          ${apkUrl(a)
+            ? `<p>${ext(apkUrl(a), `Download${a.size ? ` (${esc(a.size)})` : ''}`, 'button small ghost')}</p>
+          <p class="mono small">${esc(a.file)}${a.sha256 ? `<br>SHA-256 ${esc(a.sha256)}` : ''}</p>`
+            : `<!-- PLACEHOLDER: download "${esc(a.id)}" --><p class="tag">Coming soon</p>
+          <p class="mono small dim">${esc(a.file)}</p>`}
+          ${a.note ? `<p class="small">${esc(a.note)}</p>` : ''}
+          ${a.steps?.length ? `<details><summary>How to install</summary><ol class="steps">${a.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></details>` : ''}
+        </li>`;
 
 const download = `<div class="shell page">
-  ${heading('Download', 9, 'Get Coldshift Dash', `Free, with no ads and no account${c.downloads.version ? `: version ${esc(c.downloads.version)}` : ''}. The app for the phone in the car, and the desktop tool that fills it with maps and music.`)}
-  <section aria-labelledby="phones">
-    <h2 class="group" id="phones">For the phone</h2>
-    <div class="which card">
-      <h3>Which one?</h3>
-      <ul>
-        <li><b>Android 6 or later</b>, and you don't sync with a computer: Google Play, which keeps it up to date.</li>
-        <li><b>Android 6 or later</b>, with the desktop tool: <span class="mono">dash-modern.apk</span>.</li>
-        <li><b>Android 4.4</b> (KitKat): <span class="mono">dash-legacy.apk</span>. Settings, About phone shows your version.</li>
-      </ul>
-      <p class="small dim">The Play version and the APKs are signed differently, so one can't update the other: uninstall one before installing the other, after backing up the settings.</p>
+  ${heading('Download', 9, 'Get Coldshift Dash', `Free, with no ads and no account${dl.version ? `: version ${esc(dl.version)}` : ''}, for Android phones from 4.4 KitKat to the newest.`)}
+  <section class="card build android${anyLive ? '' : ' soon'}" id="android" aria-labelledby="android-title">
+    <div class="android-head">
+      ${icon('phone', 'device')}
+      <div><h2 id="android-title">Android</h2><p class="meta">Android 4.4 and later</p></div>
     </div>
-    <ul class="builds">${phones.map(buildCard).join('')}</ul>
+    <div class="play" id="play">
+      ${dl.play ? `<p>${ext(dl.play, 'Get it on Google Play', 'button')}</p>` : '<!-- PLACEHOLDER: download "play" --><p><span class="tag">Google Play: coming soon</span></p>'}
+      <p class="small dim">From Google Play: Android 6 and later, kept up to date for you. The easiest way.</p>
+    </div>
+    <h3>Or the APK, from GitHub</h3>
+    <ul class="apks">
+        ${dl.apks.map(apk).join('\n        ')}
+    </ul>
+    <p class="small dim">${dl.published ? `${ext(dl.latest, 'Release notes')} &middot; ${ext(`${dl.latest}/download/SHA256SUMS`, 'SHA256SUMS')} &middot; ` : ''}${ext(dl.releases, 'Every release')} on GitHub. Android's Settings, About phone shows your version. The Play version and the APKs are signed differently, so one can't update the other: uninstall one before installing the other, after backing up the settings.</p>
   </section>
-  <section aria-labelledby="computers">
-    <h2 class="group" id="computers">For the computer</h2>
-    <p class="lede">The desktop tool puts your region's map, routing and search data and your music on the phone, and brings back clips, trips and runs. It reaches the phone over USB (adb) or through a card reader.</p>
-    <ul class="builds">${builds.filter(b => b.kind === 'desktop').map(buildCard).join('')}</ul>
-  </section>
-  <p class="small dim">Every release is also on ${ext(c.downloads.releases, 'GitHub')}, with its checksums. Or build it yourself from <a href="/source/">the source</a>.</p>
+  <p class="small dim desktop-soon">${esc(dl.desktop)}</p>
 </div>`;
 
 // ---- Convoy
@@ -301,7 +276,7 @@ const convoy = `<div class="shell page">
     <h2 id="hosts-title">Where it runs</h2>
     <ul class="features three">
       <li class="card feature" id="public">${icon('cloud', 'ic tile')}<h3>Our host</h3><p>${ext(c.convoy.url, esc(convoyHost))} is the app's default, run by ${esc(c.contact.studio)} on Cloudflare. Joining a convoy there needs only its QR code or link, and its password. Starting one takes the host's start key, which keeps strangers from filling it.</p><p>${ext(c.convoy.url, `Open ${esc(convoyHost)}`, 'button small ghost')}</p></li>
-      <li class="card feature" id="own">${icon('code', 'ic tile')}<h3>Your own host</h3><p>Run your own copy for your club or your friends: on Cloudflare's free plan, or on any computer with Docker. Choose it on the app's Convoy page (Change host) and in the desktop tool.</p><p>${ext(c.repos.convoy, 'Run your own', 'button small ghost')}</p></li>
+      <li class="card feature" id="own">${icon('code', 'ic tile')}<h3>Your own host</h3><p>Run your own copy for your club or your friends: on Cloudflare's free plan, or on any computer with Docker. Choose it on the app's Convoy page (Change host).</p><p>${ext(c.repos.convoy, 'Run your own', 'button small ghost')}</p></li>
       <li class="card feature" id="nearby">${icon('wifi', 'ic tile')}<h3>No internet at all</h3><p>Out of signal, one phone hosts the convoy itself and the others join its hotspot or the same Wi-Fi; the app finds convoys nearby without a code. On a local network the connection is plain HTTP, readable by anyone on that network.</p></li>
     </ul>
   </section>
@@ -312,13 +287,13 @@ const convoy = `<div class="shell page">
 const source = `<div class="shell page">
   ${heading('Source', 8, 'Open source, MIT', 'Every part of Coldshift Dash is open source under the MIT licence: use it, change it, share it, sell it, as long as the licence and its copyright notice go with it. It comes with no warranty.')}
   <ul class="repos">
-    <li class="card repo">${icon('code', 'ic tile')}<div><h2>${ext(c.repos.app, esc(repoName(c.repos.app)))}</h2><p>The Android app, in plain Java with no Gradle (<span class="mono">build.sh</span> makes both APKs from one source), and the desktop tool, in Python with Qt. How to build them and how they fit together is in its README.</p><p class="actions">${button(c.repos.app, 'On GitHub', 'ghost')}</p></div></li>
+    <li class="card repo">${icon('code', 'ic tile')}<div><h2>${ext(c.repos.app, esc(repoName(c.repos.app)))}</h2><p>The Android app, in plain Java with no Gradle: <span class="mono">build.sh</span> makes both APKs from one source. How to build it is in its README.</p><p class="actions">${button(c.repos.app, 'On GitHub', 'ghost')}</p></div></li>
     <li class="card repo">${icon('cloud', 'ic tile')}<div><h2>${ext(c.repos.convoy, esc(repoName(c.repos.convoy)))}</h2><p>The Convoy host: the protocol, a Cloudflare Worker, a Python host for laptops and local networks, the website where convoys are started and watched, and the tests every host passes. Its guide covers running your own securely.</p><p class="actions">${button(c.repos.convoy, 'On GitHub', 'ghost')}</p></div></li>
   </ul>
   <section class="split" aria-labelledby="licence-title">
     <div>
       <h2 id="licence-title">The licence</h2>
-      <p>MIT, copyright ${esc(c.contact.company)}. The libraries the app and the desktop tool use keep their own licences, listed on the <a href="/credits/">credits</a> page and in each repository's NOTICE file. Map data is &copy; OpenStreetMap contributors, under the ODbL.</p>
+      <p>MIT, copyright ${esc(c.contact.company)}. The libraries the app uses keep their own licences, listed on the <a href="/credits/">credits</a> page and in each repository's NOTICE file. Map data is &copy; OpenStreetMap contributors, under the ODbL.</p>
     </div>
     <div class="card">
       <h3>Found a bug?</h3>
@@ -330,9 +305,8 @@ const source = `<div class="shell page">
 // ---- Support
 
 const faq = [
-  ['Which download is mine?', 'Android 4.4 takes <span class="mono">dash-legacy.apk</span>. Android 6 or later takes Google Play, or <span class="mono">dash-modern.apk</span> if you use the desktop tool. The <a href="/download/">Download</a> page has all three.'],
-  ['The map is empty.', 'The maps aren\'t in the app: the desktop tool downloads your region and puts it on the phone (Maps, choose the region, Sync to card). Routing and search need their data too, from the same page.'],
-  ['The desktop tool doesn\'t see my phone.', 'It talks to the phone over USB with adb: turn on Developer options and USB debugging on the phone, plug it in and allow the computer. The tool can download adb for you. Or take the phone\'s card out and use a card reader.'],
+  ['Which download is mine?', 'On Android 6 or later, Google Play; or <span class="mono">dash-modern.apk</span> if you\'d rather not use Play. On Android 4.4, <span class="mono">dash-legacy.apk</span>. The <a href="/download/">Download</a> page has them all.'],
+  ['The map is empty.', 'The maps aren\'t in the app: it draws Mapsforge maps (a <span class="mono">.map</span> file for your region, from download.mapsforge.org) from the <span class="mono">maps</span> folder in its <span class="mono">coldshift.dash</span> folder on the phone\'s card.'],
   ['Which OBD2 adapters work?', 'ELM327-style Bluetooth adapters, Classic or Bluetooth LE. Pair it with the phone, then Settings, Devices: choose it for Engine and press Test.'],
   ['I can\'t start a convoy on the public host.', `Starting a convoy on ${esc(convoyHost)} needs its start key; joining one doesn't. To start your own convoys, <a href="/convoy/#own">run your own host</a>, or host one on a phone with no internet at all.`],
   ['Is anything sent anywhere?', 'Only what you send in a convoy, and only to the convoy host you choose. Everything else stays on the phone. The <a href="/privacy/">privacy policy</a> has the details.'],
@@ -353,7 +327,7 @@ const support = `<div class="shell page">
 
 const privacy = `<div class="shell page narrow prose">
   ${heading('Privacy', 1, 'Privacy policy', `Effective ${esc(c.contact.effective)}; updated ${esc(c.contact.updated)}.`)}
-  <p>Coldshift Dash is made by ${esc(c.contact.company)} (${esc(c.contact.studio)}), in South Africa, which is responsible for this policy. It covers the Coldshift Dash app (from Google Play or as an APK), its desktop tool, the Convoy host at ${esc(convoyHost)}, and this website.</p>
+  <p>Coldshift Dash is made by ${esc(c.contact.company)} (${esc(c.contact.studio)}), in South Africa, which is responsible for this policy. It covers the Coldshift Dash app (from Google Play or as an APK), the Convoy host at ${esc(convoyHost)}, and this website.</p>
   <h2 id="short">In short</h2>
   <ul>
     <li>No accounts, no ads, no analytics and no tracking.</li>
@@ -367,7 +341,7 @@ const privacy = `<div class="shell page narrow prose">
     <li><b>Camera</b>: for the dashcam and the interior photo, and to scan a convoy's QR code. Clips and photos are saved on the phone.</li>
     <li><b>Microphone</b>: for voice notes in a convoy (sent only when you send one), the dashcam's sound if you turn it on, and the sound recorder. Recordings are saved on the phone.</li>
     <li><b>Bluetooth</b>: to read the engine through an OBD2 adapter, and other devices you choose. The readings stay on the phone.</li>
-    <li><b>Files</b> (the APK; the Play version uses its own folder): to read the maps, music and settings the desktop tool puts on the phone's card.</li>
+    <li><b>Files</b> (the APK; the Play version uses its own folder): to read the maps, music and settings in its <span class="mono">coldshift.dash</span> folder on the phone's card.</li>
     <li><b>Notifications</b>: for the music and the services that keep running while you drive.</li>
   </ul>
   <p>The app connects to the internet only for Convoy. Maps, routes, search and voice prompts all work from the phone.</p>
@@ -379,12 +353,10 @@ const privacy = `<div class="shell page narrow prose">
     <li><b>Hosts on a local network</b> (a phone hosting with no internet, or a computer on the same Wi-Fi) use plain HTTP: anyone on that network could read what's sent. A host someone else runs keeps what it chooses, under their own policy.</li>
     <li><b>Following in a browser</b>: the convoy's web page draws its map with tiles from OpenFreeMap, which sees an ordinary request from your browser.</li>
   </ul>
-  <h2 id="desktop">The desktop tool</h2>
-  <p>The desktop tool works on your computer and your phone, over USB or a card reader. When you ask, it downloads maps, routing data, search data and adb from their public sources (Mapsforge's server, BRouter's, Geofabrik and Google), which see an ordinary download request. It sends nothing about you to us.</p>
   <h2 id="website">This website</h2>
   <p>No cookies, no analytics and no third-party requests: the pictures and the downloads are served from here, or from GitHub when a download is hosted there. The site is hosted on Cloudflare Pages, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
   <h2 id="deleting">Deleting your data</h2>
-  <p>There's no account and nothing about you on our servers beyond a running convoy. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps, music and settings the desktop tool put on the card are in its <span class="mono">coldshift.dash</span> folder. A convoy is deleted when it ends.</p>
+  <p>There's no account and nothing about you on our servers beyond a running convoy. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps and music you put in its <span class="mono">coldshift.dash</span> folder on the card stay until you delete them. A convoy is deleted when it ends.</p>
   <h2 id="children">Children</h2>
   <p>Coldshift Dash is made for drivers and isn't directed at children. It collects nothing from anyone.</p>
   <h2 id="contact">Contact</h2>
@@ -395,7 +367,7 @@ const privacy = `<div class="shell page narrow prose">
 
 const credits = `<div class="shell page narrow">
   ${heading('Credits', 5, `A ${esc(c.contact.studio)} production`)}
-  <p>App, desktop tool, Convoy and website by ${esc(c.contact.studio)} (${esc(c.contact.company)}), made in Knysna and tested on the Garden Route's roads in two cars. ${ext(c.contact.studioUrl, esc(c.contact.studioUrl.replace(/^https:\/\//, '')))} / ${mail}</p>
+  <p>App, Convoy and website by ${esc(c.contact.studio)} (${esc(c.contact.company)}), made in Knysna and tested on the Garden Route's roads in two cars. ${ext(c.contact.studioUrl, esc(c.contact.studioUrl.replace(/^https:\/\//, '')))} / ${mail}</p>
   <p>The app's art and its built-in voice, Angie, are ${esc(c.contact.studio)}'s own, made with generative tools. The app stands on these:</p>
   <ul class="credits">
     ${c.credits.map(cr => `<li><b>${ext(cr.url, esc(cr.name))}</b><span>${esc(cr.what)}</span></li>`).join('\n    ')}
@@ -412,10 +384,10 @@ const notFound = `<div class="shell page narrow lost">
 
 const pages = [
   ['', { description: c.site.description, body: home }],
-  ['download/', { title: 'Download', description: 'Get Coldshift Dash for Android: from Google Play, or as an APK for Android 6 and later or Android 4.4, and the desktop tool for Mac, Windows and Linux.', body: download }],
+  ['download/', { title: 'Download', description: 'Get Coldshift Dash for Android: from Google Play, or as an APK for Android 6 and later or Android 4.4.', body: download }],
   ['convoy/', { title: 'Convoy', description: 'Convoy: cars driving together see each other on the map, with quick messages and push-to-talk voice notes. No accounts; run your own host if you like.', body: convoy }],
-  ['source/', { title: 'Source', description: 'Coldshift Dash is open source under the MIT licence: the Android app, the desktop tool and the Convoy host.', body: source }],
-  ['support/', { title: 'Support', description: 'Help with Coldshift Dash: which download, maps, the desktop tool, OBD2 adapters, Convoy, and how to reach us.', body: support }],
+  ['source/', { title: 'Source', description: 'Coldshift Dash is open source under the MIT licence: the Android app and the Convoy host.', body: source }],
+  ['support/', { title: 'Support', description: 'Help with Coldshift Dash: which download, maps, OBD2 adapters, Convoy, and how to reach us.', body: support }],
   ['privacy/', { title: 'Privacy', description: 'Coldshift Dash keeps your location, camera and microphone on the phone. No accounts or analytics; Convoy sends only to the host you choose.', body: privacy }],
   ['credits/', { title: 'Credits', description: 'Who and what made Coldshift Dash, and the open-source libraries it uses.', body: credits }],
 ];
@@ -429,5 +401,5 @@ for (const [route, page] of pages) {
 await writeFile('dist/404.html', layout('404.html', { title: 'Wrong turn', description: 'This page is not on the map.', body: notFound, noindex: true }));
 await writeFile('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.filter(([, p]) => !p.noindex).map(([r]) => `  <url><loc>${c.site.url}/${r}</loc></url>`).join('\n')}\n</urlset>\n`);
 await writeFile('dist/robots.txt', `User-agent: *\nAllow: /\nSitemap: ${c.site.url}/sitemap.xml\n`);
-const waiting = [...builds.filter(b => !b.url).map(b => `download ${b.id}`), ...c.screens.filter(s => !s.src).map(s => `screenshot ${s.id}`)];
+const waiting = [...(dl.play ? [] : ['download play']), ...dl.apks.filter(a => !apkUrl(a)).map(a => `download ${a.id}`), ...c.screens.filter(s => !s.src).map(s => `screenshot ${s.id}`)];
 console.log(`Built ${pages.length + 1} pages into dist/.${waiting.length ? ` Placeholders still waiting on content: ${waiting.join(', ')}.` : ''}`);
