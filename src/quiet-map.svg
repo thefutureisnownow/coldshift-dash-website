@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice">
+<!-- A made-up stretch of coast drawn in the app's Quiet map theme (android/car/assets/maptheme/quiet.xml): charcoal
+     land, dark slate water, roads in greys ranked by width and brightness, and the route and the convoy's cars on top
+     in the accent and gold. The site inlines it (without this style block) and colours it by the page's theme. -->
+<style>
+.land { fill: #22272f } .sea { fill: #101a27 } .river { fill: none; stroke: #101a27; stroke-width: 9; stroke-linecap: round }
+.park { fill: #252c2f } .bld { fill: #272c34 }
+.r { fill: none; stroke-linecap: round; stroke-linejoin: round }
+.r1 { stroke: #9aa1ab; stroke-width: 11 } .r2 { stroke: #7b828c; stroke-width: 8 } .r3 { stroke: #5a616b; stroke-width: 5 }
+.r4 { stroke: #474e58; stroke-width: 3 }
+.casing { fill: none; stroke: #12161b; stroke-width: 17; stroke-linecap: round; stroke-linejoin: round }
+.route { fill: none; stroke: #2f7bff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round }
+.route-glow { fill: none; stroke: #2f7bff; stroke-opacity: .28; stroke-width: 22; stroke-linecap: round; stroke-linejoin: round }
+.car { fill: #2f7bff; stroke: #e8eef7; stroke-width: 3; stroke-linejoin: round } .car.other { fill: #e3b341 }
+.pin { fill: #e3b341; stroke: #12161b; stroke-width: 3 }
+</style>
+<rect class="land" width="1600" height="900"/>
+<path class="park" d="M960 60c90-30 210-10 260 50s10 140-80 150-220-20-240-80 0-100 60-120z"/>
+<path class="park" d="M180 120c70-40 170-20 190 40s-40 110-120 110-140-40-130-90 20-40 60-60z"/>
+<path class="park" d="M1380 610c60-20 150 10 170 70s-30 110-110 110-120-40-120-90 10-70 60-90z"/>
+<path class="sea" d="M0 560c120 10 210 60 280 130s150 140 300 150 260 40 300 60H0z"/>
+<path class="sea" d="M560 840c40-60 30-130-10-190s-30-120 40-150 150-10 190 40 20 130-40 170-90 80-80 130z"/>
+<path class="river" d="M760 520c60-40 90-110 150-150s150-60 230-120 120-140 160-250"/>
+<g class="bld">
+<rect x="1080" y="470" width="34" height="22" rx="2"/><rect x="1130" y="468" width="40" height="26" rx="2"/><rect x="1188" y="476" width="28" height="20" rx="2"/>
+<rect x="1078" y="540" width="38" height="24" rx="2"/><rect x="1134" y="536" width="30" height="30" rx="2"/><rect x="1240" y="540" width="44" height="22" rx="2"/>
+<rect x="1086" y="612" width="30" height="22" rx="2"/><rect x="1186" y="606" width="36" height="28" rx="2"/><rect x="1246" y="612" width="30" height="20" rx="2"/>
+</g>
+<g class="r r4">
+<path d="M1050 450l280 0M1050 520l300 6M1060 590l300 4M1066 660l270-6"/>
+<path d="M1060 440l10 240M1124 444l6 236M1230 446l8 232M1300 450l4 220"/>
+<path d="M240 260c40 60 60 120 120 170M380 120c-10 70 0 140 30 200"/>
+</g>
+<g class="r r3">
+<path d="M1000 0c-10 90 20 170 90 230s180 90 230 170 20 170 70 250 160 120 210 250"/>
+<path d="M0 160c140 0 240 40 330 90s170 120 190 160"/>
+<path d="M1600 180c-120 40-220 40-300 100s-120 150-200 180"/>
+</g>
+<path class="casing" d="M0 330c160-20 300 20 420 40s250 10 380-40 260-80 400-40 280 120 400 140"/>
+<path class="casing" d="M660 900c40-120 60-230 120-330s100-190 110-300 40-200 80-270"/>
+<path class="r r2" d="M660 900c40-120 60-230 120-330s100-190 110-300 40-200 80-270"/>
+<path class="r r1" d="M0 330c160-20 300 20 420 40s250 10 380-40 260-80 400-40 280 120 400 140"/>
+<path class="route-glow" d="M210 342c70-6 140 10 210 28s250 10 380-40 260-80 400-40 230 100 290 120"/>
+<path class="route" d="M210 342c70-6 140 10 210 28s250 10 380-40 260-80 400-40 230 100 290 120"/>
+<g transform="translate(1490 410)"><path class="pin" d="M0 0c-14-20-26-34-26-50a26 26 0 0 1 52 0c0 16-12 30-26 50z"/><circle cx="0" cy="-50" r="9" fill="#12161b"/></g>
+<path class="car" transform="translate(560 370) rotate(-4)" d="M18 0-14 14-6 0-14-14z"/>
+<path class="car other" transform="translate(1000 300) rotate(8)" d="M18 0-14 14-6 0-14-14z"/>
+<path class="car other" transform="translate(905 312) rotate(-10)" d="M18 0-14 14-6 0-14-14z"/>
+</svg>

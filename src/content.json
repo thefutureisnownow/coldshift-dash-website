@@ -1,0 +1,251 @@
+{
+  "site": {
+    "name": "Coldshift Dash",
+    "url": "https://dash.coldshift.racing",
+    "tagline": "a car dashboard for old and new Android phones",
+    "description": "Coldshift Dash turns an Android phone in your car into a dashboard: offline maps and navigation, a dashcam, your music, the engine's readings, a log book and Convoy, for phones from Android 4.4 on. Free and open source.",
+    "pitch": "The phone in your dash, as your dash.",
+    "hero": "Offline maps and navigation, a dashcam, your music, the engine's readings and a log book, on one screen made for a glance. It runs on the phone you already have, even one from 2014, and needs no account and no internet."
+  },
+  "repos": {
+    "app": "https://github.com/stained/coldshift-dash",
+    "convoy": "https://github.com/stained/coldshift-dash-convoy",
+    "site": "https://github.com/stained/coldshift-dash-website"
+  },
+  "convoy": {
+    "url": "https://convoy.coldshift.racing",
+    "keep": {
+      "idleHours": 12,
+      "messages": 100,
+      "voiceNotes": 30
+    }
+  },
+  "screens": [
+    {
+      "id": "maps",
+      "caption": "Maps: the route, the next turn and the others in the convoy",
+      "src": ""
+    },
+    {
+      "id": "media",
+      "caption": "Media: the music on the card, folder by folder",
+      "src": ""
+    },
+    {
+      "id": "dashcam",
+      "caption": "Dashcam: recording, with a moment marked",
+      "src": ""
+    },
+    {
+      "id": "convoy",
+      "caption": "Convoy: who's ahead, who's behind, and the messages",
+      "src": ""
+    },
+    {
+      "id": "engine",
+      "caption": "Engine: readings from an OBD2 adapter",
+      "src": ""
+    }
+  ],
+  "features": [
+    {
+      "id": "maps",
+      "name": "Maps and navigation",
+      "text": "Offline maps of your region in a quiet, dark style made to glance at, heading-up or north-up. Hold a point, search a place or address, or pick Home: the route is worked out on the phone, with the next turn, spoken prompts, rerouting and arrival."
+    },
+    {
+      "id": "dashcam",
+      "name": "Dashcam",
+      "text": "Records in a loop at 1080p or 720p, with the speed and position saved beside each clip. Mark a moment as you drive, lock a clip to keep it, and set how much of the card clips may use."
+    },
+    {
+      "id": "media",
+      "name": "Your music",
+      "text": "Plays the music on the phone's card, folder by folder with their covers, shuffle and repeat. The desktop tool indexes a big library in seconds, so even an old phone opens it at once."
+    },
+    {
+      "id": "engine",
+      "name": "Engine",
+      "text": "Revs, speed, temperatures, boost, lambda and more from a Bluetooth OBD2 adapter, on two pages; fault codes in plain words, and a Diagnostics page with the check-engine light and the readiness monitors."
+    },
+    {
+      "id": "logbook",
+      "name": "Log book",
+      "text": "Trips log themselves. A stop at a fuel station offers to log the fill-up, the odometer keeps itself up to date, service reminders come due, and business trips go into a travel logbook for SARS."
+    },
+    {
+      "id": "track",
+      "name": "Track",
+      "text": "Drive a stretch of road once to record it, as a lap or point to point. Later runs are timed against your best with a live gap, and a run can be saved as a dashcam clip."
+    },
+    {
+      "id": "convoy",
+      "name": "Convoy",
+      "text": "Cars driving together see each other on the map, with quick messages and push-to-talk voice notes. Join with a QR code; no account.",
+      "link": "convoy/"
+    },
+    {
+      "id": "vehicle",
+      "name": "Your car's own look",
+      "text": "Each car gets its own look: its name, badges, background, colours and its picture on the map. The settings back up and restore, so a new phone picks up where the old one left off."
+    }
+  ],
+  "desktop": [
+    [
+      "Maps",
+      "Download your region's map, routing data and search data and put them on the phone."
+    ],
+    [
+      "Music",
+      "Index your library and copy the songs the phone is missing."
+    ],
+    [
+      "Recordings",
+      "Pull the dashcam's clips and marks, and gather everything from one trip into a folder."
+    ],
+    [
+      "Places and voices",
+      "Add places from the computer, and make voice packs for the prompts."
+    ],
+    [
+      "Vehicle",
+      "Set the car's name, picture and colours."
+    ],
+    [
+      "Log book and Track",
+      "Bring trips, fill-ups and runs to the computer, compare runs, export the logbook."
+    ]
+  ],
+  "downloads": {
+    "version": "",
+    "releases": "https://github.com/stained/coldshift-dash/releases",
+    "builds": [
+      {
+        "id": "play",
+        "platform": "Google Play",
+        "kind": "phone",
+        "detail": "Android 6 and later. Updates itself.",
+        "store": "Google Play",
+        "url": "",
+        "note": "Keeps its files in its own folder, so on Android 11 and later the desktop tool can't reach them. If you sync with a computer, take the APK below."
+      },
+      {
+        "id": "modern",
+        "platform": "Android 6 and later",
+        "kind": "phone",
+        "detail": "The APK, for current phones (Android 6 to 16)",
+        "file": "dash-modern.apk",
+        "size": "",
+        "url": "",
+        "sha256": "",
+        "note": "It asks for All files access, so the desktop tool can reach its maps and music on Android 11 and later.",
+        "steps": [
+          "Download the APK on the phone and open it.",
+          "When Android asks, allow installing apps from your browser or files app.",
+          "Choose Install, then open Coldshift Dash and allow what it asks for: location, camera, microphone, files and notifications."
+        ]
+      },
+      {
+        "id": "legacy",
+        "platform": "Android 4.4",
+        "kind": "phone",
+        "detail": "The APK, for older phones on Android 4.4 KitKat, such as a Huawei Ascend G7",
+        "file": "dash-legacy.apk",
+        "size": "",
+        "url": "",
+        "sha256": "",
+        "note": "Made for a phone that lives in the car: kiosk mode starts it with the phone and keeps it in front.",
+        "steps": [
+          "On the phone, turn on Settings, Security, Unknown sources.",
+          "Download the APK on the phone, open it from the notification and choose Install.",
+          "Or from a computer: adb install -r dash-legacy.apk"
+        ]
+      },
+      {
+        "id": "mac",
+        "platform": "Mac",
+        "kind": "desktop",
+        "detail": "The desktop tool for macOS",
+        "file": "",
+        "size": "",
+        "url": "",
+        "sha256": ""
+      },
+      {
+        "id": "windows",
+        "platform": "Windows",
+        "kind": "desktop",
+        "detail": "The desktop tool for Windows 10 and 11, 64-bit",
+        "file": "",
+        "size": "",
+        "url": "",
+        "sha256": ""
+      },
+      {
+        "id": "linux",
+        "platform": "Linux",
+        "kind": "desktop",
+        "detail": "The desktop tool for 64-bit Linux",
+        "file": "",
+        "size": "",
+        "url": "",
+        "sha256": ""
+      }
+    ]
+  },
+  "contact": {
+    "studio": "TFINN",
+    "company": "The Future is Now-Now (PTY) Ltd",
+    "studioUrl": "https://tfinn.co.za",
+    "email": "support@tfinn.co.za",
+    "effective": "7 November 2026",
+    "updated": "7 November 2026"
+  },
+  "credits": [
+    {
+      "name": "Mapsforge",
+      "what": "Draws the offline maps; the Quiet map theme is made from its default theme. LGPL-3.0",
+      "url": "https://github.com/mapsforge/mapsforge"
+    },
+    {
+      "name": "BRouter",
+      "what": "Works out routes on the phone. MIT",
+      "url": "https://github.com/abrensch/brouter"
+    },
+    {
+      "name": "ZXing",
+      "what": "Reads and makes the Convoy QR codes. Apache-2.0",
+      "url": "https://github.com/zxing/zxing"
+    },
+    {
+      "name": "AndroidSVG",
+      "what": "Draws the app's SVG pictures. Apache-2.0",
+      "url": "https://github.com/BigBadaboom/androidsvg"
+    },
+    {
+      "name": "OpenStreetMap contributors",
+      "what": "The map, routing and search data. ODbL",
+      "url": "https://www.openstreetmap.org/copyright"
+    },
+    {
+      "name": "Qt for Python (PySide6)",
+      "what": "The desktop tool's window. LGPL-3.0",
+      "url": "https://doc.qt.io/qtforpython-6/"
+    },
+    {
+      "name": "Mutagen",
+      "what": "The desktop tool reads songs' tags with it. GPL-2.0-or-later",
+      "url": "https://github.com/quodlibet/mutagen"
+    },
+    {
+      "name": "Pillow",
+      "what": "The desktop tool's covers and pictures. MIT-CMU",
+      "url": "https://python-pillow.org"
+    },
+    {
+      "name": "pyosmium",
+      "what": "The desktop tool builds the search data with it. BSD-2-Clause",
+      "url": "https://osmcode.org/pyosmium/"
+    }
+  ]
+}
