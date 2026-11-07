@@ -13,7 +13,7 @@
     "site": "https://github.com/stained/coldshift-dash-website"
   },
   "convoy": {
-    "url": "https://convoy.coldshift.racing",
+    "guide": "https://github.com/stained/coldshift-dash-convoy/blob/main/docs/cloudflare.md",
     "keep": {
       "idleHours": 12,
       "messages": 100,

@@ -15,7 +15,6 @@ const button = (href, label, kind = '') => `<a class="button${kind ? ' ' + kind 
 const repoName = href => href.replace('https://github.com/', '');
 const mail = `<a href="mailto:${esc(c.contact.email)}">${esc(c.contact.email)}</a>`;
 const keep = c.convoy.keep;
-const convoyHost = c.convoy.url.replace('https://', '');
 
 // The stylesheet's address carries a hash of what's in it, so a browser that kept the old one fetches it again
 // when it changes.
@@ -187,8 +186,8 @@ const home = `<section class="hero">
     <div>
       ${eyebrow('Convoy', 7)}
       <h2 id="convoy-title">Drive together, stay together</h2>
-      <p>Cars in a convoy see each other on the map, how far ahead or behind and how fast. Send a quick message with one tap, or hold Talk and say it. Friends join by scanning a QR code; anyone following along watches in a browser.</p>
-      <p class="actions">${button('/convoy/', 'How Convoy works')}${button(c.convoy.url, convoyHost, 'ghost')}</p>
+      <p>Cars in a convoy see each other on the map, how far ahead or behind and how fast. Send a quick message with one tap, or hold Talk and say it. Friends join by scanning a QR code; anyone following along watches in a browser. It runs on a relay of your own, or on one phone with no internet at all.</p>
+      <p class="actions">${button('/convoy/', 'How Convoy works')}${button(c.convoy.guide, 'Run your own relay', 'ghost')}</p>
     </div>
     <ul class="points">
       <li>${icon('convoy', 'ic tile')}<div><b>Every car on one map</b><span>Positions, speed and heading, live.</span></div></li>
@@ -252,33 +251,34 @@ const download = `<div class="shell page">
 // ---- Convoy
 
 const convoy = `<div class="shell page">
-  ${heading('Convoy', 7, 'Drive together, stay together', 'Cars driving together see each other on the map and talk to each other, through a small host that keeps nothing for long. No accounts: a convoy is a link, and a password if you give it one.')}
+  ${heading('Convoy', 7, 'Drive together, stay together', 'Cars driving together see each other on the map and talk to each other, through a relay you run yourself, or through one of the phones. No accounts: a convoy is a link, and a password if you give it one.')}
   <ul class="features three">
     <li class="card feature">${icon('convoy', 'ic tile')}<h3>Each other on the map</h3><p>The others' cars, drawn as their own pictures and turned the way they're going, with their names. The Convoy page lists who's ahead and who's behind, how far, how fast, and who has dropped out.</p></li>
     <li class="card feature">${icon('chat', 'ic tile')}<h3>Messages at a tap</h3><p>Six quick ones (Stopping for fuel, Pull over, All good, Wait for me, Slow down, Take the lead), or type one when you've stopped. A message to one car keeps the shared feed tidy.</p></li>
     <li class="card feature">${icon('mic', 'ic tile')}<h3>Push to talk</h3><p>Hold Talk and speak; let go to send. Voice notes play as they arrive, one after another, with the music paused. Nothing said is lost on a bad connection: it goes when the signal comes back.</p></li>
   </ul>
 
+  <section aria-labelledby="hosts-title">
+    <h2 id="hosts-title">Where it runs</h2>
+    <p class="lede">The app comes with no host of its own: a convoy runs on a relay you choose, or on one of the phones.</p>
+    <ul class="features">
+      <li class="card feature" id="own">${icon('cloud', 'ic tile')}<h3>Run your own relay</h3><p>Put a relay on Cloudflare's free plan, for your club, your friends or just your cars. Give it a start key, so only the phones you give the key to can start convoys on it; joining one needs only its QR code or link, and its password. A computer with Docker can be a relay too, for a local network.</p><p class="actions">${ext(c.convoy.guide, 'Run your own relay', 'button small')}${ext(c.repos.convoy, 'The relay\'s source', 'button small ghost')}</p></li>
+      <li class="card feature" id="nearby">${icon('wifi', 'ic tile')}<h3>Host on this phone</h3><p>Out of signal, or with no relay at all, one phone hosts the convoy itself: choose <b>Host on this phone</b> and start one. The others join its hotspot or the same Wi-Fi and find it under <b>Convoys nearby</b>, with no code. On a local network the connection is plain HTTP, readable by anyone on that network.</p></li>
+    </ul>
+  </section>
+
   <section class="split" aria-labelledby="start-title">
     <div>
       <h2 id="start-title">Starting one</h2>
       <ol class="how">
-        <li><b>1</b><p>On the Convoy page, choose <b>Start a convoy</b>, give it a name and, better, a password.</p></li>
-        <li><b>2</b><p>The others choose <b>Scan to join</b> and point their phone at your screen's QR code.</p></li>
-        <li><b>3</b><p>Anyone following along, at home or in the support car, opens the convoy's link in a browser: a live map, the messages and the voice notes.</p></li>
-        <li><b>4</b><p>When the drive is done, <b>End for everyone</b>. Or just leave it: it ends by itself after ${keep.idleHours} hours with no one in it.</p></li>
+        <li><b>1</b><p>On the Convoy page, choose <b>Change host</b> and type your relay's address. When it wants a start key, the app asks for it once and keeps it. No key is ever built into the app.</p></li>
+        <li><b>2</b><p>Choose <b>Start a convoy</b>, give it a name and, better, a password.</p></li>
+        <li><b>3</b><p>The others choose <b>Scan to join</b> and point their phone at your screen's QR code.</p></li>
+        <li><b>4</b><p>Anyone following along, at home or in the support car, opens the convoy's link in a browser: a live map, the messages and the voice notes.</p></li>
+        <li><b>5</b><p>When the drive is done, <b>End for everyone</b>. Or just leave it: it ends by itself after ${keep.idleHours} hours with no one in it.</p></li>
       </ol>
     </div>
-    <div class="card">${icon('qr', 'ic tile')}<h3>What keeps it private</h3><p>The convoy's link is unguessable, and knowing it is what lets you in. The password is a second lock, so a link passed on isn't enough. Messages, private ones too, aren't end-to-end encrypted: the host passes them on, and can read them. The <a href="/privacy/#convoy">privacy policy</a> says what's kept, and for how long.</p></div>
-  </section>
-
-  <section aria-labelledby="hosts-title">
-    <h2 id="hosts-title">Where it runs</h2>
-    <ul class="features three">
-      <li class="card feature" id="public">${icon('cloud', 'ic tile')}<h3>Our host</h3><p>${ext(c.convoy.url, esc(convoyHost))} is the app's default, run by ${esc(c.contact.studio)} on Cloudflare. Joining a convoy there needs only its QR code or link, and its password. Starting one takes the host's start key, which keeps strangers from filling it.</p><p>${ext(c.convoy.url, `Open ${esc(convoyHost)}`, 'button small ghost')}</p></li>
-      <li class="card feature" id="own">${icon('code', 'ic tile')}<h3>Your own host</h3><p>Run your own copy for your club or your friends: on Cloudflare's free plan, or on any computer with Docker. Choose it on the app's Convoy page (Change host).</p><p>${ext(c.repos.convoy, 'Run your own', 'button small ghost')}</p></li>
-      <li class="card feature" id="nearby">${icon('wifi', 'ic tile')}<h3>No internet at all</h3><p>Out of signal, one phone hosts the convoy itself and the others join its hotspot or the same Wi-Fi; the app finds convoys nearby without a code. On a local network the connection is plain HTTP, readable by anyone on that network.</p></li>
-    </ul>
+    <div class="card">${icon('qr', 'ic tile')}<h3>What keeps it private</h3><p>The convoy's link is unguessable, and knowing it is what lets you in. The password is a second lock, so a link passed on isn't enough, and the start key keeps strangers from starting convoys on your relay. Messages, private ones too, aren't end-to-end encrypted: the relay passes them on, and can read them. The <a href="/privacy/#convoy">privacy policy</a> says what's kept, and for how long.</p></div>
   </section>
 </div>`;
 
@@ -308,7 +308,7 @@ const faq = [
   ['Which download is mine?', 'On Android 6 or later, Google Play; or <span class="mono">dash-modern.apk</span> if you\'d rather not use Play. On Android 4.4, <span class="mono">dash-legacy.apk</span>. The <a href="/download/">Download</a> page has them all.'],
   ['The map is empty.', 'The maps aren\'t in the app: it draws Mapsforge maps (a <span class="mono">.map</span> file for your region, from download.mapsforge.org) from the <span class="mono">maps</span> folder in its <span class="mono">coldshift.dash</span> folder on the phone\'s card.'],
   ['Which OBD2 adapters work?', 'ELM327-style Bluetooth adapters, Classic or Bluetooth LE. Pair it with the phone, then Settings, Devices: choose it for Engine and press Test.'],
-  ['I can\'t start a convoy on the public host.', `Starting a convoy on ${esc(convoyHost)} needs its start key; joining one doesn't. To start your own convoys, <a href="/convoy/#own">run your own host</a>, or host one on a phone with no internet at all.`],
+  ['Which convoy host do I use?', `The app has none built in. <a href="/convoy/#own">Run your own relay</a> on Cloudflare's free plan and choose it on the Convoy page (Change host), or choose <b>Host on this phone</b> and have the others join its hotspot. A relay with a start key asks for it when you start a convoy; joining needs only the QR code or link, and the password.`],
   ['Is anything sent anywhere?', 'Only what you send in a convoy, and only to the convoy host you choose. Everything else stays on the phone. The <a href="/privacy/">privacy policy</a> has the details.'],
 ];
 const support = `<div class="shell page">
@@ -327,7 +327,7 @@ const support = `<div class="shell page">
 
 const privacy = `<div class="shell page narrow prose">
   ${heading('Privacy', 1, 'Privacy policy', `Effective ${esc(c.contact.effective)}; updated ${esc(c.contact.updated)}.`)}
-  <p>Coldshift Dash is made by ${esc(c.contact.company)} (${esc(c.contact.studio)}), in South Africa, which is responsible for this policy. It covers the Coldshift Dash app (from Google Play or as an APK), the Convoy host at ${esc(convoyHost)}, and this website.</p>
+  <p>Coldshift Dash is made by ${esc(c.contact.company)} (${esc(c.contact.studio)}), in South Africa, which is responsible for this policy. It covers the Coldshift Dash app (from Google Play or as an APK) and this website.</p>
   <h2 id="short">In short</h2>
   <ul>
     <li>No accounts, no ads, no analytics and no tracking.</li>
@@ -348,15 +348,16 @@ const privacy = `<div class="shell page narrow prose">
   <h2 id="convoy">Convoy</h2>
   <p>When you start or join a convoy, the app sends the convoy host you chose: your position, speed and heading while you're in it, the name you give, your car's picture, and the messages and voice notes you send. The host passes them to the others in that convoy, and to anyone who opens its link and knows its password.</p>
   <ul>
-    <li><b>On our host</b> (${esc(convoyHost)}, run on Cloudflare): positions are kept only in memory while you're connected. The convoy's name, its members' names and car pictures, its latest ${keep.messages} messages and latest ${keep.voiceNotes} voice notes are kept until the convoy ends: when its starter ends it, or after ${keep.idleHours} hours with no one connected. Then all of it is deleted. Your IP address is used to limit how many convoys are started and wrong passwords tried from one address, and isn't kept with what you send.</li>
-    <li><b>Encryption</b>: the connection to our host is encrypted (TLS), but messages aren't end-to-end encrypted: the host, and Cloudflare, which runs it, can read what passes through. Private messages to one car are kept from the other cars, not from the host.</li>
-    <li><b>Hosts on a local network</b> (a phone hosting with no internet, or a computer on the same Wi-Fi) use plain HTTP: anyone on that network could read what's sent. A host someone else runs keeps what it chooses, under their own policy.</li>
+    <li><b>The host is yours to choose.</b> The app has no host built in and sends nothing until you choose one: a relay you or someone you trust runs, or a phone in the convoy. Whoever runs the relay is responsible for what it keeps; we don't run a public one, and don't receive what you send.</li>
+    <li><b>What the relay keeps</b>, as ${ext(c.repos.convoy, 'coldshift-dash-convoy')} is made: positions only in memory while you're connected. The convoy's name, its members' names and car pictures, its latest ${keep.messages} messages and latest ${keep.voiceNotes} voice notes are kept until the convoy ends: when its starter ends it, or after ${keep.idleHours} hours with no one connected. Then all of it is deleted. Your IP address is used to limit how many convoys are started and wrong passwords tried from one address.</li>
+    <li><b>Encryption</b>: the connection to a relay on the internet is encrypted (TLS), but messages aren't end-to-end encrypted: the relay, and the service it runs on (such as Cloudflare), can read what passes through. Private messages to one car are kept from the other cars, not from the relay.</li>
+    <li><b>Hosts on a local network</b> (a phone hosting with no internet, or a computer on the same Wi-Fi) use plain HTTP: anyone on that network could read what's sent.</li>
     <li><b>Following in a browser</b>: the convoy's web page draws its map with tiles from OpenFreeMap, which sees an ordinary request from your browser.</li>
   </ul>
   <h2 id="website">This website</h2>
-  <p>No cookies, no analytics and no third-party requests: the pictures and the downloads are served from here, or from GitHub when a download is hosted there. The site is hosted on Cloudflare Pages, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
+  <p>No cookies, no analytics and no third-party requests: the pictures are served from here, and the downloads come from Google Play or GitHub, when you choose one. The site is hosted on Cloudflare Pages, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
   <h2 id="deleting">Deleting your data</h2>
-  <p>There's no account and nothing about you on our servers beyond a running convoy. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps and music you put in its <span class="mono">coldshift.dash</span> folder on the card stay until you delete them. A convoy is deleted when it ends.</p>
+  <p>There's no account, and nothing about you on our servers. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps and music you put in its <span class="mono">coldshift.dash</span> folder on the card stay until you delete them. A convoy is deleted from its relay when it ends.</p>
   <h2 id="children">Children</h2>
   <p>Coldshift Dash is made for drivers and isn't directed at children. It collects nothing from anyone.</p>
   <h2 id="contact">Contact</h2>

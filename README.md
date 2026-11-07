@@ -14,7 +14,7 @@ npm run check    # every local link and image resolves; every page has metadata;
 
 - `/`: the Quiet map behind the logo and the pitch; the screens (in phones held sideways); what it does; old phones and the two builds; Convoy; open source.
 - `/download/`: one Android card, Google Play first, then `dash-modern.apk` (Android 6 and later) and `dash-legacy.apk` (Android 4.4) from coldshift-dash's latest GitHub release, each with its file, size and sha256 and how to install it, and links to the release notes and `SHA256SUMS`. One line says a desktop companion is coming; the desktop app is otherwise left off the site for now.
-- `/convoy/`: what Convoy is, how to start one, and where it runs: our host (`https://convoy.coldshift.racing`), your own (`stained/coldshift-dash-convoy`), or a phone with no internet.
+- `/convoy/`: what Convoy is, where it runs (a relay of your own on Cloudflare's free plan, from `stained/coldshift-dash-convoy`'s guide, or a phone hosting with no internet) and how to start one. There's no public host: the app has none built in, and `convoy.coldshift.racing` (TFINN's own relay, which needs a start key) isn't on the site.
 - `/source/`: the two repositories (the Android app; Convoy), MIT.
 - `/privacy/`: the privacy policy, also the Google Play listing's. Keep it in step with the app and Play's Data safety form.
 - `/support/`, `/credits/`, `404.html`, `sitemap.xml`, `robots.txt`.
@@ -23,7 +23,7 @@ The pages are templates in `scripts/build.mjs`, with a `layout()` they share; th
 
 ## Content
 
-- `src/content.json`: the copy: the pitch, the screens' captions (and pictures), the features, the downloads, Convoy's host and what it keeps (`convoy.keep`, used by the Convoy and privacy pages), the studio's details and the credits.
+- `src/content.json`: the copy: the pitch, the screens' captions (and pictures), the features, the downloads, the relay guide's address and what a relay keeps (`convoy.guide`, `convoy.keep`, used by the Convoy and privacy pages), the studio's details and the credits.
 - `src/quiet-map.svg`: a made-up stretch of coast in the app's Quiet map theme (`android/car/assets/maptheme/quiet.xml` in the app), inlined in the home page's hero and coloured by the page's theme. Its own style block is the dark version, for tools that draw it without the page.
 - `public/assets/brand/`: the dash logo as SVG (`logo.svg`, cropped to the art, and `icon.svg`, square), from `scripts/brand-logo.mjs`, which draws it as the app's `gen_dash_brand.py` does (the coldshift tile, then nine shift lights); the PNG icons and the share picture `og.png`, from `scripts/brand-icons.py` (PySide6).
 - `public/assets/studio/tfinn.webp`: the TFINN logo in the footer, as on coldshift.racing.
