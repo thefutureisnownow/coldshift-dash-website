@@ -155,6 +155,17 @@ img, svg { max-width: 100%; }
 .card > :last-child { margin-bottom: 0; }
 
 /* screenshots in a phone held sideways */
+/* The trailer: a picture with a play button, swapped for YouTube's player when pressed (trailer.js). */
+.trailer, .trailer-frame { display: block; width: 100%; max-width: 960px; aspect-ratio: 16 / 9; margin-top: 28px; border-radius: var(--radius); box-shadow: var(--shadow); background: #000; }
+.trailer { position: relative; overflow: hidden; color: #fff; text-decoration: none; border: 1px solid var(--edge); }
+.trailer img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.trailer:hover img { transform: scale(1.02); }
+.trailer-frame { border: 0; }
+.play-icon { position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px; border-radius: 50%; background: linear-gradient(var(--btn-top), var(--btn-bottom)); box-shadow: 0 6px 20px rgba(0, 0, 0, .45); }
+.play-icon::after { content: ""; position: absolute; left: 34px; top: 26px; border-left: 24px solid #fff; border-block: 16px solid transparent; }
+.trailer-label { position: absolute; left: 20px; bottom: 16px; font-weight: 800; font-size: 24px; line-height: 1.1; text-shadow: 0 2px 8px rgba(0, 0, 0, .7); }
+.trailer-label small { display: block; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; opacity: .85; }
+@media (max-width: 600px) { .play-icon { width: 64px; height: 64px; margin: -32px; } .play-icon::after { left: 26px; top: 19px; border-left-width: 18px; border-block-width: 13px; } .trailer-label { font-size: 18px; left: 14px; bottom: 12px; } }
 .screens { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 28px; }
 .device { margin: 0; }
 .device.lead { grid-column: 1 / -1; }

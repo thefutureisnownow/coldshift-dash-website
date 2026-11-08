@@ -20,6 +20,7 @@ const keep = c.convoy.keep;
 // when it changes.
 const version = async file => createHash('sha256').update(await readFile(file)).digest('hex').slice(0, 10);
 const styles = `/styles.css?v=${await version('public/styles.css')}`;
+const trailerJs = `/trailer.js?v=${await version('public/trailer.js')}`;
 
 // A section's label over a row of shift lights, the dash logo's own: `lit` of nine on (five white, then red).
 const lights = lit => `<span class="lights" aria-hidden="true">${Array.from({ length: 9 }, (_, i) => `<i${i < lit ? ` class="${i < 5 ? 'on' : 'red'}"` : ''}></i>`).join('')}</span>`;
@@ -75,7 +76,7 @@ ${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:t
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="${styles}">
-</head>
+${route === '' && c.trailer.youtube ? `<script src="${trailerJs}" defer></script>\n` : ''}</head>
 <body>
 <a class="skip" href="#main">Skip to the page</a>
 <header class="site-head">
@@ -131,6 +132,19 @@ const apkUrl = a => dl.published ? `${dl.latest}/download/${a.file}` : '';
 const dk = dl.desktop;
 const anyLive = Boolean(dl.published);
 
+// The trailer: our own picture until it's pressed, then YouTube's privacy-enhanced player in its place
+// (public/trailer.js; without JavaScript it's a link to YouTube). Shown once content.json's trailer.youtube is set.
+const trailer = c.trailer.youtube ? `<section class="band alt" id="trailer" aria-labelledby="trailer-title">
+  <div class="shell">
+    ${eyebrow('The trailer', 4)}
+    <h2 id="trailer-title">See it on the road</h2>
+    <p class="lede">A minute along the lagoon in Knysna, with Angie from VisTok.</p>
+    <a class="trailer" href="https://www.youtube.com/watch?v=${esc(c.trailer.youtube)}" rel="noopener" data-youtube="${esc(c.trailer.youtube)}" data-title="${esc(c.site.name)}: the trailer"><img src="/assets/trailer.webp" width="1280" height="720" alt="" loading="lazy"><span class="play-icon" aria-hidden="true"></span><span class="trailer-label">${esc(c.trailer.title)}<small>Plays from YouTube</small></span></a>
+  </div>
+</section>
+
+` : '';
+
 const home = `<section class="hero">
   ${quietMap}
   <div class="shell hero-copy">
@@ -146,7 +160,7 @@ const home = `<section class="hero">
   </div>
 </section>
 
-<section class="band" id="screens" aria-labelledby="screens-title">
+${trailer}<section class="band" id="screens" aria-labelledby="screens-title">
   <div class="shell">
     ${eyebrow('On the screen', 3)}
     <h2 id="screens-title">Made to read at a glance</h2>
@@ -364,7 +378,7 @@ const privacy = `<div class="shell page narrow prose">
     <li><b>Following in a browser</b>: the convoy's web page draws its map with tiles from OpenFreeMap, which sees an ordinary request from your browser.</li>
   </ul>
   <h2 id="website">This website</h2>
-  <p>No cookies, no analytics and no third-party requests: the pictures are served from here, and the downloads come from GitHub, when you choose one. The site is hosted on Cloudflare, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
+  <p>No cookies, no analytics and no third-party requests until you press play on the trailer: the pictures are served from here, and the downloads come from GitHub, when you choose one. The trailer shows our own picture until it's pressed; then YouTube's privacy-enhanced player loads from youtube-nocookie.com, under YouTube's privacy policy (without JavaScript, the trailer is a link to YouTube). The site is hosted on Cloudflare, whose servers handle each request (including your IP address) to deliver the page, under Cloudflare's privacy policy.</p>
   <h2 id="deleting">Deleting your data</h2>
   <p>There's no account, and nothing about you on our servers. To delete what the app keeps, use Android's Clear storage for the app, or uninstall it; the maps and music you put in its <span class="mono">coldshift.dash</span> folder on the card stay until you delete them. A convoy is deleted from its relay when it ends.</p>
   <h2 id="children">Children</h2>

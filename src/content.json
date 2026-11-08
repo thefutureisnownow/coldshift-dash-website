@@ -7,6 +7,10 @@
     "pitch": "The phone in your dash, as your dash.",
     "hero": "Offline maps and navigation, a dashcam, your music, the engine's readings and a log book, on one screen made for a glance. It runs on the phone you already have, even one from 2014, and needs no account and no internet."
   },
+  "trailer": {
+    "youtube": "VS3Cpdl_bqc",
+    "title": "Watch the trailer"
+  },
   "repos": {
     "app": "https://github.com/thefutureisnownow/coldshift-dash",
     "convoy": "https://github.com/thefutureisnownow/coldshift-dash-convoy",
