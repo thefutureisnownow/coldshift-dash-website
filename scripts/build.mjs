@@ -96,7 +96,7 @@ ${body}
     <a class="studio" href="${esc(c.contact.studioUrl)}" rel="noopener"><img src="/assets/studio/tfinn.webp" width="256" height="256" alt="" loading="lazy"><span><strong>A ${esc(c.contact.studio)} production</strong><small>${esc(c.contact.company)}</small></span></a>
     <div>
       <nav aria-label="More">
-        <a href="/download/">Download</a><a href="/convoy/">Convoy</a><a href="/source/">Source</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/credits/">Credits</a>
+        <a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/credits/">Credits</a>
       </nav>
       <p class="small">Made in Knysna, South Africa. &copy; 2026 ${esc(c.contact.company)}. Free and open source under the MIT licence. ${mail}</p>
       <p class="small dim">No cookies, no tracking. Map data &copy; OpenStreetMap contributors.</p>
