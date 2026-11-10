@@ -52,6 +52,28 @@
       "src": "assets/screens/engine.webp"
     }
   ],
+  "desktopScreens": [
+    {
+      "id": "overview",
+      "caption": "Overview: where each part of the car stands against its phone, and one Sync for all of it",
+      "src": "assets/desktop/overview.webp"
+    },
+    {
+      "id": "maps",
+      "caption": "Maps: your region from the map server, and the places to put on the phone",
+      "src": "assets/desktop/maps.webp"
+    },
+    {
+      "id": "music",
+      "caption": "Music: the car's library, compared with the card before anything is copied",
+      "src": "assets/desktop/music.webp"
+    },
+    {
+      "id": "look",
+      "caption": "Look: the title bar, badges, background and splash the phone shows",
+      "src": "assets/desktop/look.webp"
+    }
+  ],
   "features": [
     {
       "id": "maps",

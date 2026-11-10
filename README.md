@@ -38,6 +38,16 @@ The pages are templates in `scripts/build.mjs`, with a `layout()` they share; th
   - `published`: set it to `true` once the first release with both APKs is up. Until then each APK says "Coming soon".
   - `apks[].size` and `apks[].sha256`: copy them from the release (`SHA256SUMS`) when it's made; each shows once filled in. `version`: the release's version.
 
+### Desktop screenshots
+
+`desktopScreens` in content.json: the desktop companion's Overview, Maps, Music and Look pages, on the home page (and the Overview in the download page's card), in `public/assets/desktop/` at 1600 px wide. Taken from the desktop app with `scripts/capture-desktop.py`, against a demo setup that never touches your own settings or phones:
+
+- `HOME`, `DASHSYNC_CONFIG` and `DASHSYNC_CACHE` in a scratch folder, and `PATH=/usr/bin:/bin`, so the app finds no adb and lists no phone.
+- The demo cars (`demo-vehicles` beside the app's repository: Peppermint Crisp, Lemon Drizzle, Granadilla, from its `tools/make_demo_profiles.py`) and the demo music (`tools/make_demo_music.py`: TFINN's own games' soundtracks) on a disk image mounted as `/Volumes/Coldshift Dash`, so the Music page shows a short path.
+- Another disk image as the phone's card, `/Volumes/DASHCARD` (FAT32), with the music, the look and a few public places around the Garden Route put on it with the desktop tool's own `music push`, `profile sync` and `places restore --card`. The map region is South Africa and Lesotho, left unsynced so the Overview has one thing to do.
+
+Then `sips --resampleWidth 1600` and `cwebp -q 84`. The Overview is cropped to the same 1240 x 660 as the others.
+
 ## Privacy
 
 No cookies, analytics, tracking or third-party requests: the pictures are served from here, and the fonts are the system's. `public/_headers` sets a Content-Security-Policy that allows only this site's own files (and `check` fails on a page that would need more), so a Cloudflare feature that injects a script from elsewhere is blocked rather than tracking anyone.

@@ -125,6 +125,9 @@ const screen = (s, cls = '') => `<figure class="device${cls ? ' ' + cls : ''}">
         <figcaption>${esc(s.caption)}</figcaption>
       </figure>`;
 
+// A screenshot of the desktop companion's window (1240 x 660 points, taken at 2x and kept at 1600 px wide).
+const windowShot = (s, cls = '') => `<figure class="window${cls ? ' ' + cls : ''}"><div class="window-frame"><img src="/${esc(s.src)}" width="1600" height="851" alt="${esc(s.caption)}" loading="lazy"></div><figcaption>${esc(s.caption)}</figcaption></figure>`;
+
 // Downloads: the APKs attached to coldshift-dash's latest GitHub release (tools/release.sh puts both APKs and a
 // SHA256SUMS there), live once `downloads.published` is true; and the desktop app's .dmg from its own releases.
 const dl = c.downloads;
@@ -196,7 +199,19 @@ ${trailer}<section class="band" id="screens" aria-labelledby="screens-title">
   </div>
 </section>
 
-<section class="band alt convoy-band" aria-labelledby="convoy-title">
+<section class="band alt" id="desktop-companion" aria-labelledby="desktop-companion-title">
+  <div class="shell">
+    ${eyebrow('On the computer', 4)}
+    <h2 id="desktop-companion-title">The desktop companion</h2>
+    <p class="lede">On a Mac, it gets the phone ready and keeps it in step: the map for your region with its routing and place search, your music, the car's look and voices, and convoys. One Sync brings back what the phone recorded, then puts the rest on it, over USB or through its card in a card reader.</p>
+    <p class="actions">${button('/download/#desktop', 'Get it for Mac', 'ghost')}</p>
+    <div class="windows">
+      ${c.desktopScreens.map((s, i) => windowShot(s, i === 0 ? 'lead' : '')).join('\n      ')}
+    </div>
+  </div>
+</section>
+
+<section class="band convoy-band" aria-labelledby="convoy-title">
   <div class="shell split">
     <div>
       ${eyebrow('Convoy', 7)}
@@ -212,7 +227,7 @@ ${trailer}<section class="band" id="screens" aria-labelledby="screens-title">
   </div>
 </section>
 
-<section class="band" aria-labelledby="open-title">
+<section class="band alt" aria-labelledby="open-title">
   <div class="shell split">
     <div>
       ${eyebrow('Open source', 8)}
@@ -262,6 +277,7 @@ const download = `<div class="shell page">
       <div><h2 id="desktop-title">The desktop companion</h2><p class="meta">${esc(dk.name)}: ${esc(dk.detail)}</p></div>
     </div>
     <p>${esc(dk.note)}</p>
+    ${windowShot(c.desktopScreens[0], 'in-card')}
     ${dk.published
       ? `<p>${ext(dk.latest, 'Download for Mac', 'button small ghost')}</p>`
       : '<!-- PLACEHOLDER: download "desktop" --><p class="tag">Coming soon</p>'}

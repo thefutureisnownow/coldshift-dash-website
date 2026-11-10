@@ -184,6 +184,19 @@ img, svg { max-width: 100%; }
   .device.lead .screen { border-width: 10px; border-radius: 22px; }
 }
 
+/* the desktop companion's window: the lead large, the rest in a row */
+.windows { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px; }
+.window { margin: 0; }
+.window.lead { grid-column: 1 / -1; }
+.window-frame { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: #0b1220; }
+.window.lead .window-frame { max-width: 920px; margin: 0 auto; border-radius: 14px; }
+.window img { display: block; width: 100%; height: auto; }
+.window figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); text-align: center; }
+.window.in-card { margin: 4px 0 18px; }
+.window.in-card figcaption { display: none; }
+@media (max-width: 859px) { .windows { grid-template-columns: 1fr 1fr; } .windows .window:last-child:nth-child(even) { grid-column: 1 / -1; } }
+@media (max-width: 519px) { .windows { grid-template-columns: 1fr; } }
+
 /* features */
 /* the home page's eight: two columns, the icon beside; the inner pages' threes: icon above */
 .features { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
