@@ -21,6 +21,7 @@ const keep = c.convoy.keep;
 const version = async file => createHash('sha256').update(await readFile(file)).digest('hex').slice(0, 10);
 const styles = `/styles.css?v=${await version('public/styles.css')}`;
 const trailerJs = `/trailer.js?v=${await version('public/trailer.js')}`;
+const zoomJs = `/zoom.js?v=${await version('public/zoom.js')}`;
 
 // A section's label over a row of shift lights, the dash logo's own: `lit` of nine on (five white, then red).
 const lights = lit => `<span class="lights" aria-hidden="true">${Array.from({ length: 9 }, (_, i) => `<i${i < lit ? ` class="${i < 5 ? 'on' : 'red'}"` : ''}></i>`).join('')}</span>`;
@@ -76,7 +77,7 @@ ${noindex ? '<meta name="robots" content="noindex">\n' : ''}<meta property="og:t
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="${styles}">
-${route === '' && c.trailer.youtube ? `<script src="${trailerJs}" defer></script>\n` : ''}</head>
+${route === '' && c.trailer.youtube ? `<script src="${trailerJs}" defer></script>\n` : ''}${body.includes('class="zoom"') ? `<script src="${zoomJs}" defer></script>\n` : ''}</head>
 <body>
 <a class="skip" href="#main">Skip to the page</a>
 <header class="site-head">
@@ -116,17 +117,22 @@ const quietMap = (await readFile('src/quiet-map.svg', 'utf8'))
   .replace(/<!--[\s\S]*?-->/g, '').replace(/<style>[\s\S]*?<\/style>/, '')
   .replace('<svg ', '<svg class="hero-map" aria-hidden="true" focusable="false" ').replace(/\s*\n\s*/g, '');
 
+// A screenshot that opens full size when pressed: zoom.js shows it in a viewer over the page, with the others in
+// its `group` a swipe or an arrow key away; without the script the link opens the picture itself.
+const EXPAND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg>';
+const zoom = (s, group, w, h) => `<a class="zoom" href="/${esc(s.src)}" data-group="${group}" data-caption="${esc(s.caption)}" aria-label="${esc(s.caption)}, full size"><img src="/${esc(s.src)}" width="${w}" height="${h}" alt="${esc(s.caption)}" loading="lazy"><span class="zoom-badge">${EXPAND}</span></a>`;
+
 // A screenshot in a phone held sideways (the app is landscape, 1280 x 720). Until there's a picture
 // (`screens[].src` in content.json), the frame is a marked placeholder.
 const screen = (s, cls = '') => `<figure class="device${cls ? ' ' + cls : ''}">
         <div class="screen${s.src ? '' : ' placeholder'}">${s.src
-          ? `<img src="/${esc(s.src)}" width="1280" height="720" alt="${esc(s.caption)}" loading="lazy">`
+          ? zoom(s, 'phone', 1280, 720)
           : `<!-- PLACEHOLDER: screenshot "${esc(s.id)}" --><span>${icon(s.id === 'convoy' ? 'convoy' : s.id)}<b>Screenshot to come</b><small>${esc(s.id)}</small></span>`}</div>
         <figcaption>${esc(s.caption)}</figcaption>
       </figure>`;
 
 // A screenshot of the desktop companion's window (1240 x 660 points, taken at 2x and kept at 1600 px wide).
-const windowShot = (s, cls = '') => `<figure class="window${cls ? ' ' + cls : ''}"><div class="window-frame"><img src="/${esc(s.src)}" width="1600" height="851" alt="${esc(s.caption)}" loading="lazy"></div><figcaption>${esc(s.caption)}</figcaption></figure>`;
+const windowShot = (s, cls = '') => `<figure class="window${cls ? ' ' + cls : ''}"><div class="window-frame">${zoom(s, 'desktop', 1600, 851)}</div><figcaption>${esc(s.caption)}</figcaption></figure>`;
 
 // Downloads: the APKs attached to coldshift-dash's latest GitHub release (tools/release.sh puts both APKs and a
 // SHA256SUMS there), live once `downloads.published` is true; and the desktop app's .dmg from its own releases.

@@ -197,6 +197,39 @@ img, svg { max-width: 100%; }
 @media (max-width: 859px) { .windows { grid-template-columns: 1fr 1fr; } .windows .window:last-child:nth-child(even) { grid-column: 1 / -1; } }
 @media (max-width: 519px) { .windows { grid-template-columns: 1fr; } }
 
+/* A screenshot that opens full size (zoom.js): a small expand mark in its corner, and the viewer over the page. */
+a.zoom { position: relative; display: block; height: 100%; cursor: zoom-in; border-radius: inherit; }
+a.zoom:focus-visible { outline-offset: -3px; }
+.zoom-badge { position: absolute; right: 8px; bottom: 8px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(5, 7, 10, .62); color: #fff; opacity: .75; transition: opacity .15s ease, transform .15s ease; pointer-events: none; }
+.zoom-badge svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+a.zoom:hover .zoom-badge, a.zoom:focus-visible .zoom-badge { opacity: 1; transform: scale(1.08); }
+.window.lead .zoom-badge, .device.lead .zoom-badge { right: 12px; bottom: 12px; width: 36px; height: 36px; }
+
+html.viewing { overflow: hidden; }
+.viewer { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: #e8eef7; overflow: hidden; }
+.viewer::backdrop { background: rgba(5, 7, 10, .95); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.viewer figure { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 100%; margin: 0; padding: 56px 72px 20px; box-sizing: border-box; }
+.viewer img { display: block; max-width: 100%; max-height: calc(100% - 48px); width: auto; height: auto; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); background: #05070a; }
+.viewer figcaption { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 4px 12px; max-width: 760px; text-align: center; font-size: 15px; line-height: 1.4; }
+.viewer figcaption small { color: #93a9c8; font-size: 13px; font-variant-numeric: tabular-nums; }
+.viewer button { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid rgba(147, 169, 200, .3); border-radius: 50%;
+  background: rgba(23, 28, 35, .8); color: #e8eef7; cursor: pointer; }
+.viewer button:hover { background: #1e5bd6; border-color: #2f7bff; }
+.viewer button[hidden] { display: none; }
+.viewer button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.viewer-close { top: 12px; right: 12px; }
+.viewer-prev, .viewer-next { top: 50%; margin-top: -40px; }
+.viewer-prev { left: 14px; }
+.viewer-next { right: 14px; }
+@media (max-width: 600px) {
+  .viewer figure { padding: 60px 16px 84px; }
+  .viewer-prev, .viewer-next { top: auto; bottom: 18px; margin-top: 0; }
+  .viewer-prev { left: calc(50% - 56px); }
+  .viewer-next { right: calc(50% - 56px); }
+  .viewer figcaption { font-size: 14px; }
+}
+
 /* features */
 /* the home page's eight: two columns, the icon beside; the inner pages' threes: icon above */
 .features { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
