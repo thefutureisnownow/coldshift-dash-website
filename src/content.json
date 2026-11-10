@@ -27,8 +27,13 @@
   },
   "screens": [
     {
+      "id": "drive",
+      "caption": "Drive: the speed, the next turn, the music and the dashcam on one page",
+      "src": "assets/screens/drive.webp"
+    },
+    {
       "id": "maps",
-      "caption": "Maps: the route and the next turn",
+      "caption": "Maps: the route and how far is left",
       "src": "assets/screens/maps.webp"
     },
     {
@@ -45,11 +50,6 @@
       "id": "convoy",
       "caption": "Convoy: who's ahead, who's behind, and the messages",
       "src": "assets/screens/convoy.webp"
-    },
-    {
-      "id": "engine",
-      "caption": "Engine: readings from an OBD2 adapter",
-      "src": "assets/screens/engine.webp"
     }
   ],
   "desktopScreens": [
@@ -118,7 +118,7 @@
     }
   ],
   "downloads": {
-    "version": "0.1.0",
+    "version": "0.2.1",
     "published": true,
     "releases": "https://github.com/thefutureisnownow/coldshift-dash/releases",
     "latest": "https://github.com/thefutureisnownow/coldshift-dash/releases/latest",
@@ -126,8 +126,8 @@
       {
         "id": "modern",
         "file": "dash-modern.apk",
-        "size": "2.6 MB",
-        "sha256": "c2abf376b1df3b9ebb15c153e2ca2816329cb4bdbd95f6ab5d8d68d0c7e39c83",
+        "size": "4.1 MB",
+        "sha256": "58fe00e71a3ec21597234dfb8b0ca1fdbb13abdde2f8e5e6d2fe200b701f239d",
         "steps": [
           "Download the APK on the phone and open it.",
           "When Android asks, allow installing apps from your browser or files app.",
@@ -140,8 +140,8 @@
       {
         "id": "legacy",
         "file": "dash-legacy.apk",
-        "size": "2.6 MB",
-        "sha256": "15607f8ed9be7518370efcece5ebe1fdf2017e7a684713758a77a06b49b23ac3",
+        "size": "4.1 MB",
+        "sha256": "6f3da337c6d607a68773f0f0571f4a77d93fe39b3cde37d137f96efe4308b7d0",
         "steps": [
           "On the phone, turn on Settings, Security, Unknown sources.",
           "Download the APK on the phone, open it from the notification and choose Install.",
