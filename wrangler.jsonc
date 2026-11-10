@@ -1,4 +1,4 @@
-// dash.coldshift.racing: the built site (dist/), served by Cloudflare from static assets. Deploy from this Mac:
+// dash.coldshift.racing: the built site (dist/), served by Cloudflare from static assets. Deploy with:
 //   npm run deploy      (builds, checks, then wrangler deploy)
 {
   "$schema": "https://unpkg.com/wrangler/config-schema.json",

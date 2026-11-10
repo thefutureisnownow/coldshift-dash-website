@@ -1,6 +1,6 @@
 # Coldshift Dash website
 
-The app's site, https://dash.coldshift.racing: a static site in the dash's own look (the Quiet map's charcoal and greys, the app's navy panels with their thin blue edge, its blue accent and gold highlight, and the dash logo's shift lights as section labels), light or dark by the browser's setting. Built like the game sites (coldshift.racing, snoekem.co.za).
+The app's site, https://dash.coldshift.racing: a static site in the dash's own look (the Quiet map's charcoal and greys, the app's navy panels with their thin blue edge, its blue accent and gold highlight, and the dash logo's shift lights as section labels), light or dark by the browser's setting.
 
 Requires Node.js 22 or later. No dependencies.
 
@@ -14,7 +14,7 @@ npm run check    # every local link and image resolves; every page has metadata;
 
 - `/`: the Quiet map behind the logo and the pitch; the screens (in phones held sideways); what it does; old phones and the two builds; Convoy; open source.
 - `/download/`: one Android card with `dash-modern.apk` (Android 6 and later) and `dash-legacy.apk` (Android 4.4) from coldshift-dash's latest GitHub release, each with its file, size and sha256 and how to install it, and links to the release notes and `SHA256SUMS`. One line says a desktop companion is coming; the desktop app is otherwise left off the site for now.
-- `/convoy/`: what Convoy is, where it runs (a relay of your own on Cloudflare's free plan, from `thefutureisnownow/coldshift-dash-convoy`'s guide, or a phone hosting with no internet) and how to start one. There's no public host: the app has none built in, and `convoy.coldshift.racing` (TFINN's own relay, which needs a start key) isn't on the site.
+- `/convoy/`: what Convoy is, where it runs (a relay of your own on Cloudflare's free plan, from `thefutureisnownow/coldshift-dash-convoy`'s guide, or a phone hosting with no internet) and how to start one. There's no public host: the app has none built in.
 - `/source/`: the two repositories (the Android app; Convoy), MIT.
 - `/privacy/`: the privacy policy. Keep it in step with the app.
 - `/support/`, `/credits/`, `404.html`, `sitemap.xml`, `robots.txt`.
@@ -40,13 +40,7 @@ The pages are templates in `scripts/build.mjs`, with a `layout()` they share; th
 
 ### Desktop screenshots
 
-`desktopScreens` in content.json: the desktop companion's Overview, Maps, Music and Look pages, on the home page (and the Overview in the download page's card), in `public/assets/desktop/` at 1600 px wide. Taken from the desktop app with `scripts/capture-desktop.py`, against a demo setup that never touches your own settings or phones:
-
-- `HOME`, `DASHSYNC_CONFIG` and `DASHSYNC_CACHE` in a scratch folder, and `PATH=/usr/bin:/bin`, so the app finds no adb and lists no phone.
-- The demo cars (`demo-vehicles` beside the app's repository: Peppermint Crisp, Lemon Drizzle, Granadilla, from its `tools/make_demo_profiles.py`) and the demo music (`tools/make_demo_music.py`: TFINN's own games' soundtracks) on a disk image mounted as `/Volumes/Coldshift Dash`, so the Music page shows a short path.
-- Another disk image as the phone's card, `/Volumes/DASHCARD` (FAT32), with the music, the look and a few public places around the Garden Route put on it with the desktop tool's own `music push`, `profile sync` and `places restore --card`. The map region is South Africa and Lesotho, left unsynced so the Overview has one thing to do.
-
-Then `sips --resampleWidth 1600` and `cwebp -q 84`. The Overview is cropped to the same 1240 x 660 as the others.
+`desktopScreens` in content.json: the desktop companion's Overview, Maps, Music and Look pages, in `public/assets/desktop/` at 1600 px wide. `scripts/capture-desktop.py` takes them from the desktop app run against a throwaway setup (its own `HOME`, `DASHSYNC_CONFIG` and `DASHSYNC_CACHE`), with demo vehicles and demo music, so no real car, phone or place appears.
 
 ## Privacy
 
@@ -55,7 +49,7 @@ No cookies, analytics, tracking or third-party requests: the pictures are served
 ## Hosting
 
 https://dash.coldshift.racing is served by Cloudflare from the built site's files (a Worker with static assets,
-`wrangler.jsonc`), deployed from the maintainer's Mac; nothing builds or deploys on GitHub:
+`wrangler.jsonc`), deployed with wrangler; nothing deploys from GitHub:
 
     npm run deploy      # builds, checks, and puts dist/ live on dash.coldshift.racing
 

@@ -158,8 +158,8 @@
       "latest": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases/latest",
       "name": "Mac",
       "detail": "Apple Silicon (M1 or later), macOS 12 or later",
-      "file": "Coldshift-Dash-0.2-mac-arm64.dmg",
-      "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it. Windows and Linux: run it from its source for now.",
+      "file": "Coldshift-Dash-0.3-mac-arm64.dmg",
+      "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it. Windows and Linux builds are on its releases page.",
       "steps": [
         "Open the .dmg and drag Coldshift Dash onto Applications.",
         "Open it, and follow Connect your phone: a USB cable with USB debugging on (it walks you through it), or the phone's card in a card reader."
