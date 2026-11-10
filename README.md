@@ -13,7 +13,7 @@ npm run check    # every local link and image resolves; every page has metadata;
 ## Pages
 
 - `/`: the Quiet map behind the logo and the pitch; the screens (in phones held sideways); what it does; old phones and the two builds; Convoy; open source.
-- `/download/`: one Android card with `dash-modern.apk` (Android 6 and later) and `dash-legacy.apk` (Android 4.4) from coldshift-dash's latest GitHub release, each with its file, size and sha256 and how to install it, and links to the release notes and `SHA256SUMS`. One line says a desktop companion is coming; the desktop app is otherwise left off the site for now.
+- `/download/`: one Android card with `dash-modern.apk` (Android 6 and later) and `dash-legacy.apk` (Android 4.4) from coldshift-dash's latest GitHub release, each with its file, size and sha256 and how to install it, and links to the release notes and `SHA256SUMS`. Then the desktop companion's card: a Mac `.dmg`, a Windows `.zip` and Linux AppImages for x86_64 and aarch64, each straight from coldshift-dash-desktop's latest release with its size and sha256 and how to install it.
 - `/convoy/`: what Convoy is, where it runs (a relay of your own on Cloudflare's free plan, from `thefutureisnownow/coldshift-dash-convoy`'s guide, or a phone hosting with no internet) and how to start one. There's no public host: the app has none built in.
 - `/source/`: the two repositories (the Android app; Convoy), MIT.
 - `/privacy/`: the privacy policy. Keep it in step with the app.
@@ -34,7 +34,7 @@ The pages are templates in `scripts/build.mjs`, with a `layout()` they share; th
 
 - **Screenshots**: each of `screens` in content.json shows a marked "Screenshot to come" frame until it has a `src`. Put a 1280 x 720 picture in `public/assets/screens/` (webp, from a phone running a demo profile: no car makers' badges, no album covers, no map of anyone's home) and set `src` to `assets/screens/<name>.webp`.
 - **Downloads** (`downloads` in content.json): the APKs come from GitHub Releases, never from files on Pages. coldshift-dash's `tools/release.sh --upload` attaches `dash-legacy.apk`, `dash-modern.apk` and a `SHA256SUMS` to each release, and the cards link to `https://github.com/thefutureisnownow/coldshift-dash/releases/latest/download/<file>`.
-  - `desktop`: the desktop companion's card, linking to coldshift-dash-desktop's latest release (its `.dmg`); set its `published` to `true` once the first one is up.
+  - `desktop`: the desktop companion's card. `builds` holds Mac, Windows and Linux, each with its `files` (name, size, sha256) on coldshift-dash-desktop's latest release; the file names carry the version, so a new release means new names, sizes and sums here (its `SHA256SUMS` has them).
   - `published`: set it to `true` once the first release with both APKs is up. Until then each APK says "Coming soon".
   - `apks[].size` and `apks[].sha256`: copy them from the release (`SHA256SUMS`) when it's made; each shows once filled in. `version`: the release's version.
 

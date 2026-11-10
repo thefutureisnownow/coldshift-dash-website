@@ -154,15 +154,73 @@
     ],
     "desktop": {
       "published": true,
+      "version": "0.3",
       "releases": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases",
       "latest": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases/latest",
-      "name": "Mac",
-      "detail": "Apple Silicon (M1 or later), macOS 12 or later",
-      "file": "Coldshift-Dash-0.3-mac-arm64.dmg",
-      "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it. Windows and Linux builds are on its releases page.",
-      "steps": [
-        "Open the .dmg and drag Coldshift Dash onto Applications.",
-        "Open it, and follow Connect your phone: a USB cable with USB debugging on (it walks you through it), or the phone's card in a card reader."
+      "detail": "For a Mac, a Windows PC or Linux",
+      "note": "Puts the map for your region, your music, the car's look and convoys on the phone, and backs up what was set or recorded on it.",
+      "builds": [
+        {
+          "id": "mac",
+          "name": "Mac",
+          "detail": "Apple Silicon (M1 or later), macOS 12 or later",
+          "files": [
+            {
+              "label": "Download",
+              "file": "Coldshift-Dash-0.3-mac-arm64.dmg",
+              "size": "43.7 MB",
+              "sha256": "f043084e3100fa9d38c65439deba7304a4375d0e426bcd76a3edf8c9947b49ef"
+            }
+          ],
+          "note": "Signed with TFINN's Apple Developer ID and notarised by Apple.",
+          "steps": [
+            "Open the .dmg and drag Coldshift Dash onto Applications.",
+            "Open it, and follow Connect your phone: a USB cable with USB debugging on (it walks you through it), or the phone's card in a card reader."
+          ]
+        },
+        {
+          "id": "windows",
+          "name": "Windows",
+          "detail": "64-bit Windows 10 or 11",
+          "files": [
+            {
+              "label": "Download",
+              "file": "Coldshift-Dash-0.3-win-amd64.zip",
+              "size": "52.9 MB",
+              "sha256": "e069fce02a42dd5793d52f9b7118286a008bf2fdb45a2e7f52cd49deb78362f5"
+            }
+          ],
+          "note": "Not signed yet, so Windows SmartScreen warns the first time you start it.",
+          "steps": [
+            "Unpack the .zip and open the Coldshift Dash folder.",
+            "Start Coldshift Dash.exe. When SmartScreen warns, choose More info, then Run anyway.",
+            "Follow Connect your phone: a USB cable with USB debugging on, or the phone's card in a card reader."
+          ]
+        },
+        {
+          "id": "linux",
+          "name": "Linux",
+          "detail": "An AppImage for x86_64 (most PCs) or aarch64 (ARM)",
+          "files": [
+            {
+              "label": "x86_64",
+              "file": "Coldshift-Dash-0.3-linux-x86_64.AppImage",
+              "size": "60.1 MB",
+              "sha256": "7168a94a2ad19dc16272d3119309e0131f6491e4d4d03aaa440e4a0cedaabcd8"
+            },
+            {
+              "label": "aarch64",
+              "file": "Coldshift-Dash-0.3-linux-aarch64.AppImage",
+              "size": "58.3 MB",
+              "sha256": "b80f84eee1e5c88c4e8bd62f4a17306d8a96b2841d788822f7914ac7098b0b47"
+            }
+          ],
+          "note": "The x86_64 one needs glibc 2.35 or newer (Ubuntu 22.04 and later), the aarch64 one glibc 2.39 (Ubuntu 24.04 and later).",
+          "steps": [
+            "Make the AppImage executable (chmod +x) and start it.",
+            "For a phone on a USB cable, Linux needs a udev rule: sudo apt install android-sdk-platform-tools-common on Debian and Ubuntu, or sudo dnf install android-tools on Fedora, then plug the phone in again."
+          ]
+        }
       ]
     }
   },

@@ -209,8 +209,8 @@ ${trailer}<section class="band" id="screens" aria-labelledby="screens-title">
   <div class="shell">
     ${eyebrow('On the computer', 4)}
     <h2 id="desktop-companion-title">The desktop companion</h2>
-    <p class="lede">On a Mac, it gets the phone ready and keeps it in step: the map for your region with its routing and place search, your music, the car's look and voices, and convoys. One Sync brings back what the phone recorded, then puts the rest on it, over USB or through its card in a card reader.</p>
-    <p class="actions">${button('/download/#desktop', 'Get it for Mac', 'ghost')}</p>
+    <p class="lede">On a Mac, Windows or Linux computer, it gets the phone ready and keeps it in step: the map for your region with its routing and place search, your music, the car's look and voices, and convoys. One Sync brings back what the phone recorded, then puts the rest on it, over USB or through its card in a card reader.</p>
+    <p class="actions">${button('/download/#desktop', 'Get it for Mac, Windows or Linux', 'ghost')}</p>
     <div class="windows">
       ${c.desktopScreens.map((s, i) => windowShot(s, i === 0 ? 'lead' : '')).join('\n      ')}
     </div>
@@ -265,6 +265,20 @@ const apk = a => `<li class="apk${apkUrl(a) ? '' : ' soon'}" id="${esc(a.id)}">
           ${a.steps?.length ? `<details><summary>How to install</summary><ol class="steps">${a.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></details>` : ''}
         </li>`;
 
+// A desktop build: one card per system, with a button for each of its files (Linux has one per processor),
+// straight to that file on the desktop app's latest release.
+const desktopUrl = f => dk.published ? `${dk.latest}/download/${f.file}` : '';
+const desktopBuild = b => `<li class="apk${dk.published ? '' : ' soon'}" id="${esc(b.id)}">
+          <h4>${esc(b.name)}</h4>
+          <p class="meta">${esc(b.detail)}</p>
+          ${dk.published
+            ? `<p class="buttons">${b.files.map(f => ext(desktopUrl(f), `${esc(f.label)}${f.size ? ` (${esc(f.size)})` : ''}`, 'button small ghost')).join(' ')}</p>
+          ${b.files.map(f => `<p class="mono sums">${esc(f.file)}${f.sha256 ? `<br>SHA-256 ${esc(f.sha256)}` : ''}</p>`).join('\n          ')}`
+            : `<!-- PLACEHOLDER: download "${esc(b.id)}" --><p class="tag">Coming soon</p>`}
+          ${b.note ? `<p class="small">${esc(b.note)}</p>` : ''}
+          ${b.steps?.length ? `<details><summary>How to install</summary><ol class="steps">${b.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></details>` : ''}
+        </li>`;
+
 const download = `<div class="shell page">
   ${heading('Download', 9, 'Get Coldshift Dash', `Free, with no ads and no account${dl.version ? `: version ${esc(dl.version)}` : ''}, for Android phones from 4.4 KitKat to the newest.`)}
   <section class="card build android${anyLive ? '' : ' soon'}" id="android" aria-labelledby="android-title">
@@ -280,15 +294,14 @@ const download = `<div class="shell page">
   <section class="card build desktop${dk.published ? '' : ' soon'}" id="desktop" aria-labelledby="desktop-title">
     <div class="android-head">
       ${icon('code', 'device')}
-      <div><h2 id="desktop-title">The desktop companion</h2><p class="meta">${esc(dk.name)}: ${esc(dk.detail)}</p></div>
+      <div><h2 id="desktop-title">The desktop companion</h2><p class="meta">${esc(dk.detail)}${dk.version ? `: version ${esc(dk.version)}` : ''}</p></div>
     </div>
     <p>${esc(dk.note)}</p>
     ${windowShot(c.desktopScreens[0], 'in-card')}
-    ${dk.published
-      ? `<p>${ext(dk.latest, 'Download for Mac', 'button small ghost')}</p>`
-      : '<!-- PLACEHOLDER: download "desktop" --><p class="tag">Coming soon</p>'}
-    <details><summary>How to install</summary><ol class="steps">${dk.steps.map(t => `<li>${esc(t)}</li>`).join('')}</ol></details>
-    <p class="small dim">${ext(dk.releases, 'Every release')} on GitHub, signed with TFINN's Apple Developer ID and notarised by Apple. ${ext(c.repos.desktop, 'Its source')}.</p>
+    <ul class="apks desktops">
+        ${dk.builds.map(desktopBuild).join('\n        ')}
+    </ul>
+    <p class="small dim">${dk.published ? `${ext(dk.latest, 'Release notes')} &middot; ${ext(`${dk.latest}/download/SHA256SUMS`, 'SHA256SUMS')} &middot; ` : ''}${ext(dk.releases, 'Every release')} on GitHub. ${ext(c.repos.desktop, 'Its source')}.</p>
   </section>
 </div>`;
 
@@ -332,7 +345,7 @@ const source = `<div class="shell page">
   ${heading('Source', 8, 'Open source, MIT', 'Every part of Coldshift Dash is open source under the MIT licence: use it, change it, share it, sell it, as long as the licence and its copyright notice go with it. It comes with no warranty.')}
   <ul class="repos">
     <li class="card repo">${icon('code', 'ic tile')}<div><h2>${ext(c.repos.app, esc(repoName(c.repos.app)))}</h2><p>The Android app, in plain Java with no Gradle: <span class="mono">build.sh</span> makes both APKs from one source. How to build it is in its README.</p><p class="actions">${button(c.repos.app, 'On GitHub', 'ghost')}</p></div></li>
-    <li class="card repo">${icon('code', 'ic tile')}<div><h2>${ext(c.repos.desktop, esc(repoName(c.repos.desktop)))}</h2><p>The desktop companion, in Python with Qt: the map, music, the car's look and convoys onto the phone, backups off it. Its README covers running it from source and building the signed Mac app.</p><p class="actions">${button(c.repos.desktop, 'On GitHub', 'ghost')}</p></div></li>
+    <li class="card repo">${icon('code', 'ic tile')}<div><h2>${ext(c.repos.desktop, esc(repoName(c.repos.desktop)))}</h2><p>The desktop companion, in Python with Qt: the map, music, the car's look and convoys onto the phone, backups off it. Its README covers running it from source and building it for Mac, Windows and Linux.</p><p class="actions">${button(c.repos.desktop, 'On GitHub', 'ghost')}</p></div></li>
     <li class="card repo">${icon('cloud', 'ic tile')}<div><h2>${ext(c.repos.convoy, esc(repoName(c.repos.convoy)))}</h2><p>The Convoy host: the protocol, a Cloudflare Worker, a Python host for laptops and local networks, the page where convoys are followed in a browser, and the tests every host passes. Its guide covers running your own securely.</p><p class="actions">${button(c.repos.convoy, 'On GitHub', 'ghost')}</p></div></li>
   </ul>
   <section class="split" aria-labelledby="licence-title">
@@ -350,7 +363,7 @@ const source = `<div class="shell page">
 // ---- Support
 
 const faq = [
-  ['Which download is mine?', 'On Android 6 or later, <span class="mono">dash-modern.apk</span>; on Android 4.4, <span class="mono">dash-legacy.apk</span>. On a Mac, the desktop companion too, to put maps and music on the phone. The <a href="/download/">Download</a> page has them all.'],
+  ['Which download is mine?', 'On Android 6 or later, <span class="mono">dash-modern.apk</span>; on Android 4.4, <span class="mono">dash-legacy.apk</span>. On a computer, the desktop companion too, to put maps and music on the phone: for Mac, Windows or Linux. The <a href="/download/">Download</a> page has them all.'],
   ['The map is empty.', 'The maps aren\'t in the app: it draws Mapsforge maps (a <span class="mono">.map</span> file for your region, from download.mapsforge.org) from the <span class="mono">maps</span> folder in its <span class="mono">coldshift.dash</span> folder on the phone\'s card.'],
   ['Which OBD2 adapters work?', 'ELM327-style Bluetooth adapters, Classic or Bluetooth LE. Pair it with the phone, then Settings, Devices: choose it for Engine and press Test.'],
   ['Which convoy host do I use?', `The app has none built in. <a href="/convoy/#own">Run your own relay</a> on Cloudflare's free plan and choose it on the Convoy page (Change host), or choose <b>Host on this phone</b> and have the others join its hotspot. A relay with a start key asks for it when you start a convoy; joining needs only the QR code or link, and the password.`],
@@ -430,7 +443,7 @@ const notFound = `<div class="shell page narrow lost">
 
 const pages = [
   ['', { description: c.site.description, body: home }],
-  ['download/', { title: 'Download', description: 'Get Coldshift Dash for Android, as an APK for Android 6 and later or Android 4.4, and its desktop companion for the Mac.', body: download }],
+  ['download/', { title: 'Download', description: 'Get Coldshift Dash for Android, as an APK for Android 6 and later or Android 4.4, and its desktop companion for Mac, Windows and Linux.', body: download }],
   ['convoy/', { title: 'Convoy', description: 'Convoy: cars driving together see each other on the map, with quick messages and push-to-talk voice notes. No accounts; run your own host if you like.', body: convoy }],
   ['source/', { title: 'Source', description: 'Coldshift Dash is open source under the MIT licence: the Android app, the desktop companion and the Convoy host.', body: source }],
   ['support/', { title: 'Support', description: 'Help with Coldshift Dash: which download, maps, OBD2 adapters, Convoy, and how to reach us.', body: support }],
