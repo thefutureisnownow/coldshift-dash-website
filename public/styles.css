@@ -288,11 +288,10 @@ details summary { cursor: pointer; font-weight: 600; color: var(--link); }
 .apk p { margin-bottom: 10px; }
 .apk > :last-child { margin-bottom: 0; }
 .desktop-soon { margin-top: 24px; }
-/* the desktop companion's builds: Mac, Windows and Linux side by side; Linux has a button per processor */
-.desktops { grid-template-columns: repeat(3, 1fr); }
+/* the desktop companion's builds: Mac, Windows and Linux one under another; Linux has a button per processor */
+.desktops { grid-template-columns: 1fr; }
 .apk .buttons { display: flex; flex-wrap: wrap; gap: 8px; }
 .apk .sums { font-size: 12px; line-height: 1.5; color: var(--muted); }
-@media (max-width: 959px) { .desktops { grid-template-columns: 1fr 1fr; } .desktops > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
 @media (max-width: 719px) { .apks { grid-template-columns: 1fr; } .android { padding: 18px; } .apk { padding: 16px; } }
 
 /* convoy */
