@@ -120,6 +120,7 @@
   "downloads": {
     "version": "0.2.1",
     "published": true,
+    "play": "",
     "releases": "https://github.com/thefutureisnownow/coldshift-dash/releases",
     "latest": "https://github.com/thefutureisnownow/coldshift-dash/releases/latest",
     "apks": [

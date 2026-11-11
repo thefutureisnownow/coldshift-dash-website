@@ -286,7 +286,11 @@ const download = `<div class="shell page">
       ${icon('phone', 'device')}
       <div><h2 id="android-title">Android</h2><p class="meta">Android 4.4 and later</p></div>
     </div>
-    <ul class="apks">
+    ${dl.play ? `<div class="play">
+      <a class="badge" href="${esc(dl.play)}" rel="noopener"><img src="/assets/badges/google-play-badge.png" width="155" height="60" alt="Get it on Google Play"></a>
+      <p class="small dim">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+    </div>
+    ` : ''}<ul class="apks">
         ${dl.apks.map(apk).join('\n        ')}
     </ul>
     <p class="small dim">${dl.published ? `${ext(dl.latest, 'Release notes')} &middot; ${ext(`${dl.latest}/download/SHA256SUMS`, 'SHA256SUMS')} &middot; ` : ''}${ext(dl.releases, 'Every release')} on GitHub. Android's Settings, About phone shows your version. Both are signed with the project's key, whose certificate's SHA-256 is <span class="mono">${esc(c.releaseKey)}</span>: an APK signed with anything else isn't ours.</p>

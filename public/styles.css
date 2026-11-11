@@ -279,7 +279,9 @@ details summary { cursor: pointer; font-weight: 600; color: var(--link); }
 .android-head h2 { margin: 0; font-size: 26px; }
 .android-head p { margin: 0; }
 .play { padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-.play p:first-child { margin-bottom: 8px; }
+.play .badge { display: inline-block; line-height: 0; }
+.play .badge img { display: block; width: 155px; height: auto; max-width: 100%; }
+.play p { margin: 4px 0 0; }
 .android > h3 { font-size: 17px; margin-bottom: 14px; }
 .apks { list-style: none; margin: 0 0 18px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .apk { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
