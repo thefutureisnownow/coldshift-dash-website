@@ -155,7 +155,7 @@
     ],
     "desktop": {
       "published": true,
-      "version": "0.3",
+      "version": "0.4",
       "releases": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases",
       "latest": "https://github.com/thefutureisnownow/coldshift-dash-desktop/releases/latest",
       "detail": "For a Mac, a Windows PC or Linux",
@@ -168,9 +168,9 @@
           "files": [
             {
               "label": "Download",
-              "file": "Coldshift-Dash-0.3-mac-arm64.dmg",
-              "size": "43.7 MB",
-              "sha256": "f043084e3100fa9d38c65439deba7304a4375d0e426bcd76a3edf8c9947b49ef"
+              "file": "Coldshift-Dash-0.4-mac-arm64.dmg",
+              "size": "43.9 MB",
+              "sha256": "c884a7b27813a10ca8894e1a951652ea98aed09a2f49fbb67d090df3bf22cb4d"
             }
           ],
           "note": "Signed with TFINN's Apple Developer ID and notarised by Apple.",
@@ -186,9 +186,9 @@
           "files": [
             {
               "label": "Download",
-              "file": "Coldshift-Dash-0.3-win-amd64.zip",
-              "size": "52.9 MB",
-              "sha256": "e069fce02a42dd5793d52f9b7118286a008bf2fdb45a2e7f52cd49deb78362f5"
+              "file": "Coldshift-Dash-0.4-win-amd64.zip",
+              "size": "53.1 MB",
+              "sha256": "999c3a37b3963f7b301e9dcdadf91444d1aa4097f4a09107d740d770c48b2b9f"
             }
           ],
           "note": "Not signed yet, so Windows SmartScreen warns the first time you start it.",
@@ -205,15 +205,15 @@
           "files": [
             {
               "label": "x86_64",
-              "file": "Coldshift-Dash-0.3-linux-x86_64.AppImage",
-              "size": "60.1 MB",
-              "sha256": "7168a94a2ad19dc16272d3119309e0131f6491e4d4d03aaa440e4a0cedaabcd8"
+              "file": "Coldshift-Dash-0.4-linux-x86_64.AppImage",
+              "size": "60.3 MB",
+              "sha256": "2d3ba044321941b8f9580723fcfe7d9f8db215a4c173f6fc8c4eb2bcc1d6e609"
             },
             {
               "label": "aarch64",
-              "file": "Coldshift-Dash-0.3-linux-aarch64.AppImage",
-              "size": "58.3 MB",
-              "sha256": "b80f84eee1e5c88c4e8bd62f4a17306d8a96b2841d788822f7914ac7098b0b47"
+              "file": "Coldshift-Dash-0.4-linux-aarch64.AppImage",
+              "size": "58.5 MB",
+              "sha256": "701fc734e19dd1dd33a40af0d88ef6757eb89189dce844dfa4db25c9d8f2f637"
             }
           ],
           "note": "The x86_64 one needs glibc 2.35 or newer (Ubuntu 22.04 and later), the aarch64 one glibc 2.39 (Ubuntu 24.04 and later).",
